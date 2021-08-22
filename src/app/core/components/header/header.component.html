@@ -1,22 +1,41 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light container">
-  <div class="container-fluid">
-    <span class="navbar-brand ms-4">Echo</span>
-    <div class="collapse navbar-collapse pr-5" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-4 me-auto mt-1">
-        <li class="nav-item">
-          <a class="nav-link active" [routerLink]="['']">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['timeline']">Timeline</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['eventos']">Eventos</a>
-        </li>
-      </ul>
-      <form class="d-flex me-4">
-        <input class="form-control me-2" type="pesquisa" placeholder="Procurando por algo?" aria-label="Pesquisa">
-        <button class="btn btn-outline-success" type="submit">Login</button>
-      </form>
+<div class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light container">
+    <div class="container-fluid bg-light">
+      <a class="navbar-brand">
+        <img
+          class="navbar-brand img-fluid"
+          width="40"
+          src="../../../../assets/logo.png"
+        />
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-4 me-auto mt-1">
+          <li class="nav-item">
+            <a class="nav-link active" [routerLink]="['']">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['timeline']">Timeline</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['eventos']">Eventos</a>
+          </li>
+        </ul>
+        <form class="d-flex me-4">
+          <input
+            class="form-control me-2"
+            type="pesquisa"
+            placeholder="Procurando por algo?"
+            aria-label="Pesquisa"
+          />
+          <button
+            class="btn btn-outline-success"
+            type="redirect"
+            [routerLink]="['login']"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>

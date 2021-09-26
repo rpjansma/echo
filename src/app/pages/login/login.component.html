@@ -1,43 +1,46 @@
 <body class="text-center vsc-initialized container mt-5">
-  <main class="form-signin">
-    <form>
-      <img
-        class="mb-4 img-fluid"
-        src="../../../assets/logo.png"
-        alt="Logomarca da Echo"
-        width="100px"
-        height="100px"
-      />
-      <h1 class="h3 mb-3 fw-normal">Entre na sua conta</h1>
+  <main class="d-flex form-signin justify-content-center align-items-center">
+    <form class="cotainer"
+    [formGroup]="loginForm">
 
-      <div class="form-floating">
+      <h1 class="h3 mb-3 fw-normal">Faça login</h1>
+
+      <div class="form-floating mb-3 mt-3">
         <input
           type="email"
           class="form-control"
-          id="floatingInput"
+          id="username"
+          formControlName="username"
           placeholder="name@example.com"
         />
-        <label for="floatingInput">Email address</label>
+        <label for="usernameInput">Digite seu email</label>
       </div>
-      <div class="form-floating">
+
+      <div class="form-floating mb-3 mt-3">
         <input
           type="password"
           class="form-control"
           id="floatingPassword"
           placeholder="Password"
+          formControlName="password"
         />
-        <label for="floatingPassword">Password</label>
+        <label for="floatingPassword">Digite sua senha</label>
       </div>
 
-      <div class="checkbox mb-3">
+
+      <a><i class="bi bi-google " style="font-size: 2rem;"></i></a>
+
+      <a><i class="bi bi-facebook" style="font-size: 2rem;"></i></a>
+
+      <div class="checkbox mb-3 mt-3">
         <label>
-          <input type="checkbox" value="remember-me" /> Remember me
+          <input type="checkbox" value="remember-me" /> Lembre de mim
         </label>
       </div>
       <button class="w-100 btn btn-lg btn-primary" type="submit">
         Sign in
       </button>
-      <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
+
     </form>
   </main>
 </body>

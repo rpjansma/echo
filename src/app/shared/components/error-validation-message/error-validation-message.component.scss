@@ -1,0 +1,40 @@
+small {
+  -webkit-animation: fadeIn 0.8s ease-in-out;
+  -moz-animation: fadeIn 0.8s ease-in-out;
+  -o-animation: fadeIn 0.8s ease-in-out;
+  animation: fadeIn 0.8s ease-in-out;
+  animation-direction: alternate;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

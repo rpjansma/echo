@@ -1,3 +1,25 @@
 a {
   text-decoration: none;
 }
+
+#quem_somos{
+  height: 70vh;
+  background-image: url("../../../assets/fundo_quemsomos.png");
+  background-position: 100%;
+  background-repeat: no-repeat;
+}
+
+#echo-logo{
+  width: auto;
+  height: 40vh;
+}
+
+img{
+  height: 200px;
+  width: auto;
+}
+
+h2{
+  font-weight: bold;
+  margin-top: 5px;
+}

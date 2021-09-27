@@ -1,8 +1,6 @@
 <body class="text-center vsc-initialized container mt-5">
   <main class="d-flex form-signin justify-content-center align-items-center">
-    <form class="cotainer"
-    [formGroup]="loginForm">
-
+    <form class="cotainer" [formGroup]="loginForm" (submit)="login()">
       <h1 class="h3 mb-3 fw-normal">Faça login</h1>
 
       <div class="form-floating mb-3 mt-3">
@@ -11,9 +9,14 @@
           class="form-control"
           id="username"
           formControlName="username"
-          placeholder="name@example.com"
+          [class.is-valid]="loginForm.controls['username'].valid"
+          placeholder="username"
         />
-        <label for="usernameInput">Digite seu email</label>
+        <error-message
+          *ngIf="isRequiredAndTouched('username')"
+          text="Username is required"
+        ></error-message>
+        <label for="usernameInput">Digite seu username</label>
       </div>
 
       <div class="form-floating mb-3 mt-3">
@@ -23,23 +26,32 @@
           id="floatingPassword"
           placeholder="Password"
           formControlName="password"
+          [class.is-valid]="loginForm.controls['password'].valid"
         />
+        <error-message
+          *ngIf="isRequiredAndTouched('password')"
+          text="Password is required"
+        ></error-message>
         <label for="floatingPassword">Digite sua senha</label>
       </div>
 
+      <a><i class="bi bi-google pe-2" style="font-size: 2rem"></i></a>
 
-      <a><i class="bi bi-google " style="font-size: 2rem;"></i></a>
-
-      <a><i class="bi bi-facebook" style="font-size: 2rem;"></i></a>
+      <a><i class="bi bi-facebook ps-2" style="font-size: 2rem"></i></a>
 
       <div class="checkbox mb-3 mt-3">
         <label>
           <input type="checkbox" value="remember-me" /> Lembre de mim
         </label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">
+      <button
+        class="w-100 btn btn-lg btn-primary"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
         Sign in
       </button>
+
 
     </form>
   </main>

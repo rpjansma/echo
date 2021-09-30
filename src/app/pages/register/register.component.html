@@ -1,0 +1,101 @@
+<div class="container mt-5 d-flex justify-content-center">
+  <form
+    [formGroup]="registerForm"
+    class="form mt-4"
+    (submit)="register()"
+    *ngIf="!loading"
+  >
+    <div class="form-group">
+      <input
+        #usernameInput
+        formControlName="username"
+        class="form-control"
+        placeholder="Username"
+      />
+      <error-message
+        *ngIf="isRequiredAndTouched('username')"
+        text="Username is required"
+      ></error-message>
+      <error-message
+        *ngIf="registerForm.get('username')?.errors?.minlength"
+        text="Insira pelo menos 3 caracteres"
+      ></error-message>
+      <error-message
+        *ngIf="registerForm.get('username')?.errors?.maxlength"
+        text="Insira no máximo 20 caracteres"
+      ></error-message>
+      <error-message
+        *ngIf="registerForm.get('username')?.errors?.pattern"
+        text="Deve começar com uma letra minúscula, não pode ser um número"
+      ></error-message>
+    </div>
+
+    <div class="form-group">
+      <input
+        formControlName="email"
+        type="email"
+        class="form-control"
+        placeholder="Email"
+      />
+
+      <error-message
+        *ngIf="isRequiredAndTouched('email')"
+        text="Email is required"
+      ></error-message>
+      <error-message
+        *ngIf="registerForm.get('email')?.errors?.email"
+        text="Invalid email"
+      ></error-message>
+    </div>
+
+    <div class="form-group">
+      <input
+        formControlName="password"
+        type="password"
+        class="form-control"
+        placeholder="New password"
+        #password
+      />
+      <error-message
+        *ngIf="isRequiredAndTouched('password')"
+        text="Password is required"
+      ></error-message>
+      <error-message
+        *ngIf="registerForm.get('password')?.errors?.minlength"
+        text="Minimum length is 6"
+      ></error-message>
+      <error-message
+        *ngIf="registerForm.get('password')?.errors?.maxlength"
+        text="Maximum length is 20"
+      ></error-message>
+    </div>
+
+    <div class="form-group">
+      <input
+        formControlName="passwordRepeat"
+        type="password"
+        class="form-control"
+        placeholder="Confirm your password"
+        pattern="{{ password.value }}"
+      />
+      <error-message
+        *ngIf="registerForm.get('passwordRepeat')?.errors?.pattern"
+        text="The password doesn't match."
+      ></error-message>
+    </div>
+
+    <button
+      [disabled]="registerForm.invalid"
+      type="submit"
+      class="btn btn-primary btn-block my-4"
+    >
+      Register
+    </button>
+
+    <p class="text-center mt-2">
+      Already a user? <a [routerLink]="['']">Sign In!</a>
+    </p>
+  </form>
+
+  <modal-loading *ngIf="loading"></modal-loading>
+</div>

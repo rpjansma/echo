@@ -1,58 +1,25 @@
-<body class="text-center vsc-initialized container mt-5">
-  <main class="d-flex form-signin justify-content-center align-items-center">
-    <form class="cotainer" [formGroup]="loginForm" (submit)="login()">
-      <h1 class="h3 mb-3 fw-normal">Faça login</h1>
+<body>
 
-      <div class="form-floating mb-3 mt-3">
-        <input
-          type="email"
-          class="form-control"
-          id="username"
-          formControlName="username"
-          [class.is-valid]="loginForm.controls['username'].valid"
-          placeholder="username"
-        />
-        <error-message
-          *ngIf="isRequiredAndTouched('username')"
-          text="Username is required"
-        ></error-message>
-        <label for="usernameInput">Digite seu username</label>
-      </div>
+  <div class="login-page">
+      <h1>FAÇA SEU LOGIN</h1>
+      <form>
+          <input type="email" name="" id="" placeholder="Digite seu e-mail"/>
+          <input type="password" name="" id="" placeholder="Digite sua senha"/>    
+          <button type="submit" class="btn">ENTRAR</button>
+          <p>ou entre através:</p>
 
-      <div class="form-floating mb-3 mt-3">
-        <input
-          type="password"
-          class="form-control"
-          id="floatingPassword"
-          placeholder="Password"
-          formControlName="password"
-          [class.is-valid]="loginForm.controls['password'].valid"
-        />
-        <error-message
-          *ngIf="isRequiredAndTouched('password')"
-          text="Password is required"
-        ></error-message>
-        <label for="floatingPassword">Digite sua senha</label>
-      </div>
+          <div class="icons">
+              <div>
+                  <a><img class="googlenc" src="../../../assets/googlenocolor.png"></a>
+              </div>
+              <div>
+                  <a><img class="facebooknc" src='../../../assets/facebooknocolor.png'></a>  
+              </div>
+          </div>
 
-      <a><i class="bi bi-google pe-2" style="font-size: 2rem"></i></a>
+      </form>
+      <p class="bold">PRIMEIRO ACESSO?</p>
+      <p><a [routerLink]="['register']" class="sign-up">Clique aqui</a> para se cadastrar</p>
+  </div>
 
-      <a><i class="bi bi-facebook ps-2" style="font-size: 2rem"></i></a>
-
-      <div class="checkbox mb-3 mt-3">
-        <label>
-          <input type="checkbox" value="remember-me" /> Lembre de mim
-        </label>
-      </div>
-      <button
-        class="w-100 btn btn-lg btn-primary"
-        type="submit"
-        [disabled]="loginForm.invalid"
-      >
-        Sign in
-      </button>
-
-
-    </form>
-  </main>
 </body>

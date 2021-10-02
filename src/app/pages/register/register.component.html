@@ -1,101 +1,28 @@
-<div class="container mt-5 d-flex justify-content-center">
-  <form
-    [formGroup]="registerForm"
-    class="form mt-4"
-    (submit)="register()"
-    *ngIf="!loading"
-  >
-    <div class="form-group">
-      <input
-        #usernameInput
-        formControlName="username"
-        class="form-control"
-        placeholder="Username"
-      />
-      <error-message
-        *ngIf="isRequiredAndTouched('username')"
-        text="Username is required"
-      ></error-message>
-      <error-message
-        *ngIf="registerForm.get('username')?.errors?.minlength"
-        text="Insira pelo menos 3 caracteres"
-      ></error-message>
-      <error-message
-        *ngIf="registerForm.get('username')?.errors?.maxlength"
-        text="Insira no máximo 20 caracteres"
-      ></error-message>
-      <error-message
-        *ngIf="registerForm.get('username')?.errors?.pattern"
-        text="Deve começar com uma letra minúscula, não pode ser um número"
-      ></error-message>
-    </div>
+<!DOCTYPE html>
 
-    <div class="form-group">
-      <input
-        formControlName="email"
-        type="email"
-        class="form-control"
-        placeholder="Email"
-      />
+<html>
+    <head>
+      <meta charset="UTF-8"/>
+      <link rel="stylesheet" href="Register.css">
+    
+    </head>
 
-      <error-message
-        *ngIf="isRequiredAndTouched('email')"
-        text="Email is required"
-      ></error-message>
-      <error-message
-        *ngIf="registerForm.get('email')?.errors?.email"
-        text="Invalid email"
-      ></error-message>
-    </div>
+    <body>
+        <div class="register-page">
+            <form>
+                <input type="name" name="" id="" placeholder="NOME COMPLETO" class="name"></input>
+                <input type="date" name="" id="" placeholder="DATA NASCIMENTO" class="birth"></input>
+                <input type="radio" name="sex" id="" class="radio">MASC</input>
+                <input type="radio" name="sex" id="" class="radio">FEM</input>
+                <input type="email" name="" id="" placeholder="E-MAIL" class="email"></input>
+                <input type="confirm-email" name="" id="" placeholder="CONFIRMAR E-MAIL" class="email"></input>
+                <input type="password" name="" id="" placeholder="SENHA" class="password"></input>
+                <input type="password" name="" id="" placeholder="CONFIRMAR SENHA" class="password"></input>
+                <div class="cadastrar">
+                    <button type="submit" class="btn">CADASTRAR</button>
+                </div>
+                
+            </form>
+        </div>
 
-    <div class="form-group">
-      <input
-        formControlName="password"
-        type="password"
-        class="form-control"
-        placeholder="New password"
-        #password
-      />
-      <error-message
-        *ngIf="isRequiredAndTouched('password')"
-        text="Password is required"
-      ></error-message>
-      <error-message
-        *ngIf="registerForm.get('password')?.errors?.minlength"
-        text="Minimum length is 6"
-      ></error-message>
-      <error-message
-        *ngIf="registerForm.get('password')?.errors?.maxlength"
-        text="Maximum length is 20"
-      ></error-message>
-    </div>
-
-    <div class="form-group">
-      <input
-        formControlName="passwordRepeat"
-        type="password"
-        class="form-control"
-        placeholder="Confirm your password"
-        pattern="{{ password.value }}"
-      />
-      <error-message
-        *ngIf="registerForm.get('passwordRepeat')?.errors?.pattern"
-        text="The password doesn't match."
-      ></error-message>
-    </div>
-
-    <button
-      [disabled]="registerForm.invalid"
-      type="submit"
-      class="btn btn-primary btn-block my-4"
-    >
-      Register
-    </button>
-
-    <p class="text-center mt-2">
-      Already a user? <a [routerLink]="['']">Sign In!</a>
-    </p>
-  </form>
-
-  <modal-loading *ngIf="loading"></modal-loading>
-</div>
+    </body>

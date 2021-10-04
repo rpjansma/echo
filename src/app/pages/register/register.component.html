@@ -1,10 +1,12 @@
-<div class="container mt-5 d-flex justify-content-center">
+<div class="container mt-5">
   <form
     [formGroup]="registerForm"
     class="form mt-4"
     (submit)="register()"
     *ngIf="!loading"
   >
+
+
     <div class="form-group">
       <input
         #usernameInput
@@ -14,7 +16,7 @@
       />
       <error-message
         *ngIf="isRequiredAndTouched('username')"
-        text="Username is required"
+        text="Insira um usuário"
       ></error-message>
       <error-message
         *ngIf="registerForm.get('username')?.errors?.minlength"
@@ -35,16 +37,16 @@
         formControlName="email"
         type="email"
         class="form-control"
-        placeholder="Email"
+        placeholder="E-mail"
       />
 
       <error-message
         *ngIf="isRequiredAndTouched('email')"
-        text="Email is required"
+        text="Insira um e-mail válido"
       ></error-message>
       <error-message
         *ngIf="registerForm.get('email')?.errors?.email"
-        text="Invalid email"
+        text="E-mail inválido"
       ></error-message>
     </div>
 
@@ -80,7 +82,7 @@
       />
       <error-message
         *ngIf="registerForm.get('passwordRepeat')?.errors?.pattern"
-        text="The password doesn't match."
+        text="As senha não são iguais"
       ></error-message>
     </div>
 
@@ -93,9 +95,12 @@
     </button>
 
     <p class="text-center mt-2">
-      Already a user? <a [routerLink]="['']">Sign In!</a>
+      Already a user? <a [routerLink]="['/login']">Sign In!</a>
     </p>
+    <echo-graphic></echo-graphic>
+
   </form>
 
   <modal-loading *ngIf="loading"></modal-loading>
+
 </div>

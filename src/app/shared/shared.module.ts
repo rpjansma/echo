@@ -7,15 +7,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
     ErrorValidationMessageComponent
 } from './components/error-validation-message/error-validation-message.component';
+import { GraphicComponent } from './components/graphic/graphic.component';
 import { ModalLoadingComponent } from './components/modal-loading/modal-loading.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
   declarations: [
-    ErrorValidationMessageComponent, ModalLoadingComponent
+    ErrorValidationMessageComponent, ModalLoadingComponent, GraphicComponent
   ],
   exports: [
-    ErrorValidationMessageComponent, ModalLoadingComponent
+    ErrorValidationMessageComponent, ModalLoadingComponent, GraphicComponent
   ]
 })
 export class SharedModule {}

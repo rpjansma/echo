@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api: 'https://rest-calendar-api.herokuapp.com'
+  api: 'https://rest-calendar-api.herokuapp.com',
+  dolar_api: 'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata'
 };
 
 

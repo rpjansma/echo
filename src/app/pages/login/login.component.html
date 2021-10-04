@@ -1,6 +1,6 @@
 <body class="text-center vsc-initialized container mt-5">
   <main class="d-flex form-signin justify-content-center align-items-center">
-    <form class="cotainer" [formGroup]="loginForm" (submit)="login()">
+    <form class="cotainer" [formGroup]="loginForm" (submit)="login()" *ngIf="!loading">
       <h1 class="h3 mb-3 fw-normal">Faça login</h1>
 
       <div class="form-floating mb-3 mt-3">
@@ -52,7 +52,12 @@
         Sign in
       </button>
 
+      <p class="text-center mt-2">
+        Ainda não tem conta? <a [routerLink]="['/register']">Registre-se!</a>
+      </p>
 
     </form>
+
+    <modal-loading *ngIf="loading"></modal-loading>
   </main>
 </body>

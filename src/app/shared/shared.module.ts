@@ -1,4 +1,4 @@
-
+import { ChartsModule } from 'ng2-charts';
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -13,10 +13,14 @@ import { ModalLoadingComponent } from './components/modal-loading/modal-loading.
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule],
   declarations: [
-    ErrorValidationMessageComponent, ModalLoadingComponent, GraphicComponent
+    ErrorValidationMessageComponent,
+    ModalLoadingComponent,
+    GraphicComponent,
   ],
   exports: [
-    ErrorValidationMessageComponent, ModalLoadingComponent, GraphicComponent
-  ]
+    ErrorValidationMessageComponent,
+    ModalLoadingComponent,
+    GraphicComponent,
+  ],
 })
 export class SharedModule {}

@@ -1,4 +1,3 @@
-import { ChartsModule } from 'ng2-charts';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';

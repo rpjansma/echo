@@ -1,4 +1,3 @@
-import { ChartsModule } from 'ng2-charts';
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';

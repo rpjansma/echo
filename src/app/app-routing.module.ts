@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
+import { HomeModule } from './pages/home/home.module';
+import { GraphicComponent } from './shared/components/graphic/graphic.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadChildren: () => import('./pages/home/home.module').then(module => module.HomeModule)
   },
 
   {
@@ -22,6 +24,12 @@ const routes: Routes = [
     path: 'register',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/register/register.module').then(module => module.RegisterModule)
+
+  },
+
+  {
+    path: 'graphic',
+    component: GraphicComponent,
 
   },
 

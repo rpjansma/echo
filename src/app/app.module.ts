@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { RequestInterceptor } from './core/auth/request.interceptor';
 import { CoreModule } from './core/core.module';
 import { LoginModule } from './pages/login/login.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,7 +16,8 @@ import { LoginModule } from './pages/login/login.module';
     BrowserModule,
     AppRoutingModule,
     LoginModule,
-    CoreModule
+    CoreModule,
+    SharedModule
   ],
   providers: [
     CoreModule,

@@ -2,12 +2,6 @@ a {
   text-decoration: none;
 }
 
-#quem_somos{
-  height: 70vh;
-  background-image: url("../../../assets/fundo_quemsomos.png");
-  background-position: 100%;
-  background-repeat: no-repeat;
-}
 
 #echo-logo{
   width: auto;
@@ -23,3 +17,44 @@ h2{
   font-weight: bold;
   margin-top: 5px;
 }
+
+//graphic
+#graphic h3{
+  margin: 1%;
+  line-height: 150%;
+}
+
+
+//feedback
+
+#feedback{
+  margin: 2%;
+}
+
+
+h3{
+  text-align: left;
+}
+
+
+
+.d-block {
+  height: 100vh;
+  width: 100vh;
+}
+
+.d-flex, .container, .py-2 {
+  height: 100vh;
+}
+
+#quem_somos{
+  background-image: url("../../../assets/fundo_quemsomos.png");
+  background-position: 100%;
+  background-repeat: no-repeat;
+}
+
+#graphic {
+  padding: 50px;
+}
+
+

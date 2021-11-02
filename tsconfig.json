@@ -29,5 +29,6 @@
     "strictTemplates": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
+    "experimentalDecorators": true
   }
 }

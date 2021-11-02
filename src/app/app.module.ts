@@ -9,7 +9,6 @@ import { RequestInterceptor } from './core/auth/request.interceptor';
 import { CoreModule } from './core/core.module';
 import { LoginModule } from './pages/login/login.module';
 import { SharedModule } from './shared/shared.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +18,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LoginModule,
     CoreModule,
     SharedModule,
-    NgbModule
   ],
   providers: [
     CoreModule,

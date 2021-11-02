@@ -5,8 +5,8 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HomeModule } from './pages/home/home.module';
+import { CarouselComponent } from './shared/components/carousel/carousel.component';
 import { GraphicComponent } from './shared/components/graphic/graphic.component';
-import { TestComponetComponent } from './shared/components/teste/teste.component';
 
 const routes: Routes = [
   {
@@ -31,12 +31,6 @@ const routes: Routes = [
   {
     path: 'graphic',
     component: GraphicComponent,
-
-  },
-
-  {
-    path: 'test',
-    component: TestComponetComponent,
 
   },
 

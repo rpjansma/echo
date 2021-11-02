@@ -3,15 +3,30 @@ import Chart from 'chart.js/auto';
 
 import { Component, OnInit } from '@angular/core';
 
+import { DolarService } from '../../../core/services/dolar-service/dolar.service';
+
 @Component({
   selector: 'echo-graphic',
   templateUrl: './graphic.component.html',
   styleUrls: ['./graphic.component.scss'],
 })
 export class GraphicComponent implements OnInit {
-  constructor() {}
 
-  getTest() {}
+  events: any = [];
+
+  constructor(private dolarService: DolarService) {
+  }
+
+  getTest() {
+    return this.dolarService.getDolarData().subscribe((res) => {
+       return console.log(res)
+      },
+      (error) => {
+        console.log("Coxinha")
+      }
+    );
+  }
+
 
   ngOnInit(): void {
     const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
@@ -19,10 +34,10 @@ export class GraphicComponent implements OnInit {
       labels: labels,
       datasets: [
         {
-          label: 'My First dataset',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [0, 10, 5, 2, 20, 30, 45],
+          label: 'Dolar Rate',
+          backgroundColor: 'rgb(6C, 6C, 6C)',
+          borderColor: 'rgb(6C, 6C, 6C)',
+          data: "potato",
         },
       ],
     };
@@ -39,7 +54,7 @@ export class GraphicComponent implements OnInit {
           },
           title: {
             display: true,
-            text: 'Chart.js Line Chart',
+            text: 'Timeline',
           },
         },
       },

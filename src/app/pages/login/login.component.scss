@@ -1,4 +1,27 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 form{
   margin: 100px 0px 20px 0px;
   width: 500px;
+  padding: 50px;
+  border-style: solid;
+  border-color: gray;
 }
+
+
+
+#google:hover {
+  color: red !important
+}
+
+#facebook:hover {
+  color: blue !important
+}
+
+#first-access {
+  font-weight: bold;
+}
+
+

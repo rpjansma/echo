@@ -1,6 +1,47 @@
-<footer class="fixed-bottom position-sticky mt-5">
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted inline">
+  <!-- Copyright -->
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      <ul class="navbar-nav ms-2 me-auto mt-1 inline">
+        <li class="nav-item">
+          <a class="nav-link active fw-bold" [routerLink]="['']" fragment="home" *ngIf="!isLogged()">HOME</a>
+        </li>
 
-  <div class="text-center fs-5 text-white bg-dark py-3">
-    <span>SERVIÇOS DISPONÍVEIS</span>
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            [routerLink]="['']" fragment="quem-somos" *ngIf="!isLogged()"
+            >A ECHO</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            [routerLink]="['consultar']"
+            *ngIf="isLogged()"
+            >CONSULTA</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            [routerLink]="['eventos']"
+            *ngIf="isLogged()"
+            >EVENTOS</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link fw-bold"
+            [routerLink]="['historico']"
+            *ngIf="isLogged()"
+            >HISTÓRICO</a
+          >
+        </li>
+      </ul>
+      
   </div>
+  <!-- Copyright -->
 </footer>
+<!-- Footer -->

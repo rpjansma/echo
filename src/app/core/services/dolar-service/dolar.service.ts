@@ -46,8 +46,6 @@ export class DolarService {
   }
 
   changeFinalDate(date: string) {
-    console.log(this.dataFinal);
     this.dataFinal = date;
-    console.log(this.dataFinal);
   }
 }

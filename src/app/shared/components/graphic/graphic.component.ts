@@ -49,6 +49,7 @@ export class GraphicComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getData()
     const canvas = <HTMLCanvasElement>document.getElementById('myChart');
     const ctx = canvas.getContext('2d');
 
@@ -69,7 +70,6 @@ export class GraphicComponent implements OnInit {
       },
     };
     this.myChart = new Chart(ctx, config as any);
-    this.updateChart()
   }
 
   getData() {

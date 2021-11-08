@@ -3,9 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { PagesRoutingModule } from './pages-routing.module';
+import { EventsComponent } from './events/events.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    EventsComponent
+  ],
   imports: [CommonModule, PagesRoutingModule, SharedModule],
   exports: [],
 })

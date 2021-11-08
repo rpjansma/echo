@@ -6,6 +6,7 @@ import { NotFoundComponent } from './pages/errors/not-found/not-found.component'
 import { HomeComponent } from './pages/home/home.component';
 import { HomeModule } from './pages/home/home.module';
 import { GraphicComponent } from './shared/components/graphic/graphic.component';
+import { EventsComponent } from './pages/events/events.component';
 
 const routes: Routes = [
   {
@@ -34,13 +35,20 @@ const routes: Routes = [
   },
 
   {
+    path: 'eventos',
+    component: EventsComponent,
+
+  },
+
+  {
     path: '**',
     component: NotFoundComponent
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {anchorScrolling: 'enabled'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

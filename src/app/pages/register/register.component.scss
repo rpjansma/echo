@@ -1,8 +1,9 @@
 form {
-  text-align: center;
+  text-align: left;
   width: 800px;
   height: auto;
   background: #e8e8e8;
+  padding: 10px;
 }
 
 input {
@@ -34,4 +35,9 @@ input {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.secondline {
+  display: flex;
+  justify-content: space-between;
 }

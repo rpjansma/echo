@@ -1,102 +1,78 @@
-<body class="d-flex justify-content-center">
+<body class="d-flex justify-content-center p-3">
   <div class="">
-    <form
-      [formGroup]="registerForm"
-      class="form mt-4 container"
-      (submit)="register()"
-      *ngIf="!loading"
-    >
-      <div class="form-group">
-        <input
-          #usernameInput
-          formControlName="username"
-          class="form-control mt-2"
-          placeholder="Username"
-        />
-        <error-message
-          *ngIf="isRequiredAndTouched('username')"
-          text="Insira um usuário"
-        ></error-message>
-        <error-message
-          *ngIf="registerForm.get('username')?.errors?.minlength"
-          text="Insira pelo menos 3 caracteres"
-        ></error-message>
-        <error-message
-          *ngIf="registerForm.get('username')?.errors?.maxlength"
-          text="Insira no máximo 20 caracteres"
-        ></error-message>
-        <error-message
-          *ngIf="registerForm.get('username')?.errors?.pattern"
-          text="Deve começar com uma letra minúscula, não pode ser um número"
-        ></error-message>
+    <form [formGroup]="registerForm" class="form mt-4 container" (submit)="register()" *ngIf="!loading">
+
+      <input #nameInput formControlName="name" class="form-control mt-2" placeholder="NOME COMPLETO" />
+      <error-message *ngIf="isRequiredAndTouched('name')" text="Insira seu nome completo"></error-message>
+      <error-message *ngIf="registerForm.get('username')?.errors?.minlength" text="Insira pelo menos 3 caracteres">
+      </error-message>
+
+      <div class="form-check form-check-inline">
+
+        <input formControlName="birthday" type="date" class="form-control" placeholder="ANIVERSÁRIO" />
+
+        <div class="form-check form-check-inline">
+          <input type="radio" class="custom-control-input" id="SEX" name="sexo" mdbInput>
+          <label class="custom-control-label" for="defaultChecked">MASC</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input type="radio" class="custom-control-input" id="SEX" name="sexo" mdbInput>
+          <label class="custom-control-label" for="defaultUnchecked">FEM</label>
+        </div>
+
       </div>
 
       <div class="form-group">
-        <input
-          formControlName="email"
-          type="email"
-          class="form-control"
-          placeholder="E-mail"
-        />
+        <input formControlName="email" type="email" class="form-control" placeholder="E-MAIL" />
 
-        <error-message
-          *ngIf="isRequiredAndTouched('email')"
-          text="Insira um e-mail válido"
-        ></error-message>
-        <error-message
-          *ngIf="registerForm.get('email')?.errors?.email"
-          text="E-mail inválido"
-        ></error-message>
+        <error-message *ngIf="isRequiredAndTouched('email')" text="Insira um e-mail válido"></error-message>
+        <error-message *ngIf="registerForm.get('email')?.errors?.email" text="E-mail inválido"></error-message>
       </div>
 
       <div class="form-group">
-        <input
-          formControlName="password"
-          type="password"
-          class="form-control"
-          placeholder="Senha"
-          #password
-        />
-        <error-message
-          *ngIf="isRequiredAndTouched('password')"
-          text="Insira um senha"
-        ></error-message>
-        <error-message
-          *ngIf="registerForm.get('password')?.errors?.minlength"
-          text="Deve ter pelo menos 6 caracteres"
-        ></error-message>
-        <error-message
-          *ngIf="registerForm.get('password')?.errors?.maxlength"
-          text="Deve ter no máximo 20 caracteres"
-        ></error-message>
+        <input formControlName="emailrepeat" type="email" class="form-control" placeholder="CONFIRME SEU E-MAIL"
+          pattern="{{ email.value }}" />
+        <error-message *ngIf="registerForm.get('emailrepeat')?.errors?.pattern" text="Os e-mails não são iguais">
+        </error-message>
       </div>
 
       <div class="form-group">
-        <input
-          formControlName="passwordRepeat"
-          type="password"
-          class="form-control"
-          placeholder="Confirme sua senha"
-          pattern="{{ password.value }}"
-        />
-        <error-message
-          *ngIf="registerForm.get('passwordRepeat')?.errors?.pattern"
-          text="As senha não são iguais"
-        ></error-message>
+        <input #usernameInput formControlName="username" class="form-control mt-2" placeholder="USUÁRIO" />
+        <error-message *ngIf="isRequiredAndTouched('username')" text="Insira um usuário"></error-message>
+        <error-message *ngIf="registerForm.get('username')?.errors?.minlength" text="Insira pelo menos 3 caracteres">
+        </error-message>
+        <error-message *ngIf="registerForm.get('username')?.errors?.maxlength" text="Insira no máximo 20 caracteres">
+        </error-message>
+        <error-message *ngIf="registerForm.get('username')?.errors?.pattern"
+          text="Deve começar com uma letra minúscula, não pode ser um número"></error-message>
       </div>
 
-      <button
-        [disabled]="registerForm.invalid"
-        type="submit"
-        class="btn btn-primary btn-block my-4"
-      >
+      <div class="form-group">
+        <input formControlName="password" type="password" class="form-control" placeholder="SENHA" #password />
+        <error-message *ngIf="isRequiredAndTouched('password')" text="Insira um senha"></error-message>
+        <error-message *ngIf="registerForm.get('password')?.errors?.minlength" text="Deve ter pelo menos 6 caracteres">
+        </error-message>
+        <error-message *ngIf="registerForm.get('password')?.errors?.maxlength" text="Deve ter no máximo 20 caracteres">
+        </error-message>
+      </div>
+
+      <div class="form-group">
+        <input formControlName="passwordRepeat" type="password" class="form-control" placeholder="CONFIRME SUA SENHA"
+          pattern="{{ password.value }}" />
+        <error-message *ngIf="registerForm.get('passwordRepeat')?.errors?.pattern" text="As senha não são iguais">
+        </error-message>
+      </div>
+
+      <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary btn-block my-4">
         Registrar
       </button>
 
-      <p class="text-center mt-2">
-        Já tem conta? <a [routerLink]="['/login']">Faça login!</a>
-      </p>
     </form>
+    
+    <p class="text-center mt-2">
+      Já tem conta? <a [routerLink]="['/login']">Faça login!</a>
+    </p>
 
     <modal-loading *ngIf="loading"></modal-loading>
   </div>

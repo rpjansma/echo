@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit {
     const email = this.registerForm.get('email')?.value;
     const password = this.registerForm.get('password')?.value;
     this.loading = true;
+
     this.userService.createUser(username, email, password).subscribe(
       () => {
         this.loading = false;

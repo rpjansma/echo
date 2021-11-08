@@ -1,30 +1,51 @@
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const API_URL = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial='01-01-2021',dataFinalCotacao='09-18-2021')?$format=json";
+import { DolarServiceInterface } from '../../../shared/interfaces/dolar-interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DolarService {
-
+  private dataInicial = '01-01-2021';
+  private dataFinal = '09-18-2021';
+  private API_URL =
+    'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata';
   constructor(private http: HttpClient) {}
 
-  getDolarData() {
+  getDolarData(): Observable<DolarServiceInterface> {
+    let dataInicial = this.dataInicial
+    let dataFinal = this.dataFinal
     return this.http
-      .get(
-        API_URL      )
+      .get<DolarServiceInterface[]>(
+        this.API_URL +
+          "/CotacaoDolarPeriodo(dataInicial='" +
+          dataInicial +
+          "',dataFinalCotacao='" +
+          dataFinal +
+          "')?$format=json",
+        {
+          observe: 'body',
+          responseType: 'json',
+        }
+      )
       .pipe(
-        map(res => {
-          return res
-        }),
+        map((res) => res),
         catchError((error) => {
           alert('Sorry, we had an error. Can you try again?');
           return of(null);
         })
       );
+  }
+
+  changeInitialDate(date: string) {
+    this.dataInicial = date;
+  }
+
+  changeFinalDate(date: string) {
+    this.dataFinal = date;
   }
 }

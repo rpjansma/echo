@@ -1,9 +1,13 @@
 import { ChartType } from 'chart.js';
 import Chart from 'chart.js/auto';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
+import { waitForAsync } from '@angular/core/testing';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DolarService } from '../../../core/services/dolar-service/dolar.service';
+import { DolarServiceInterface, DolarServiceInterfaceApi } from '../../interfaces/dolar-interface';
 
 @Component({
   selector: 'echo-graphic',
@@ -11,41 +15,46 @@ import { DolarService } from '../../../core/services/dolar-service/dolar.service
   styleUrls: ['./graphic.component.scss'],
 })
 export class GraphicComponent implements OnInit {
+  events: any[] = [];
 
-  events: any = [];
-
-  constructor(private dolarService: DolarService) {
-  }
-
-  getTest() {
-    return this.dolarService.getDolarData().subscribe((res) => {
-       return console.log(res)
+  dateForm: FormGroup;
+  dolarEvents: Observable<DolarService>;
+  data$: Observable<DolarService[]>;
+  cotacaoCompra: number[] = [];
+  cotacaoVenda: number[] = [];
+  dataCotacao: any[] = [];
+  myChart: Chart;
+  private data = {
+    labels: this.dataCotacao,
+    datasets: [
+      {
+        label: 'Valor de Venda',
+        backgroundColor: 'rgb(6C, 6C, 6C)',
+        borderColor: 'rgb(6C, 6C, 6C)',
+        data: this.cotacaoCompra,
       },
-      (error) => {
-        console.log("Coxinha")
-      }
-    );
-  }
+    ],
+  };
 
+  constructor(private dolarService: DolarService, private formBuilder: FormBuilder,) {
+    this.dateForm = this.formBuilder.group({
+      dataInicial: [
+        '01-01-2020',
+        [
+          Validators.required,
+        ],
+      ],
+      dataFinal: ['02-01-2020', [Validators.required]]
+    });
+  }
 
   ngOnInit(): void {
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
-    const data = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Dolar Rate',
-          backgroundColor: 'rgb(6C, 6C, 6C)',
-          borderColor: 'rgb(6C, 6C, 6C)',
-          data: "potato",
-        },
-      ],
-    };
-    var canvas = <HTMLCanvasElement>document.getElementById('myChart');
-    var ctx = canvas.getContext('2d');
-    const config = {
+    const canvas = <HTMLCanvasElement>document.getElementById('myChart');
+    const ctx = canvas.getContext('2d');
+
+    let config = {
       type: 'line' as ChartType,
-      data: data,
+      data: this.data,
       options: {
         responsive: true,
         plugins: {
@@ -54,11 +63,35 @@ export class GraphicComponent implements OnInit {
           },
           title: {
             display: true,
-            text: 'Timeline',
+            text: 'Variação do Dolar',
           },
         },
       },
     };
-    var myChart = new Chart(ctx, config as any);
+    this.myChart = new Chart(ctx, config as any);
+    this.updateChart()
+  }
+
+  getData() {
+    return this.dolarService.getDolarData().subscribe((data: any) => {
+      this.events = data.value;
+      this.cotacaoCompra = this.events.map((value) => value.cotacaoCompra);
+      this.cotacaoVenda = this.events.map((value) => value.cotacaoVenda);
+      this.dataCotacao = this.events.map((value) => value.dataHoraCotacao);
+    });
+  }
+
+  updateChart() {
+    this.getData();
+    this.myChart.data.datasets.map(valor => valor.data = this.cotacaoVenda)
+    this.myChart.data.labels = this.dataCotacao;
+    this.myChart.update();
+  }
+
+  updateApiDate() {
+    const dataInicial = this.dateForm.get('dataInicial')?.value;
+    const dataFinal = this.dateForm.get('dataFinal')?.value;
+    this.dolarService.changeInitialDate(dataInicial)
+    this.dolarService.changeFinalDate(dataFinal)
   }
 }

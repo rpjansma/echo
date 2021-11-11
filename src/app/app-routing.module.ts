@@ -3,11 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
-import { HomeComponent } from './pages/home/home.component';
-import { HomeModule } from './pages/home/home.module';
-import { CarouselComponent } from './shared/components/carousel/carousel.component';
 import { GraphicComponent } from './shared/components/graphic/graphic.component';
 import { EventsComponent } from './pages/events/events.component';
+import { HistoricComponent } from './pages/historic/historic.component';
+
 
 const routes: Routes = [
   {
@@ -19,26 +18,27 @@ const routes: Routes = [
     path: 'login',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/login/login.module').then(module => module.LoginModule)
-
   },
 
   {
     path: 'register',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/register/register.module').then(module => module.RegisterModule)
-
   },
 
   {
     path: 'graphic',
     component: GraphicComponent,
-
   },
 
   {
     path: 'eventos',
-    component: EventsComponent,
+    loadChildren: () => import('./pages/events/events.module').then(module => module.EventsModule)
+  },
 
+  {
+    path: 'historico',
+    loadChildren: () => import('./pages/historic/historic.module').then(module => module.HistoricModule)
   },
 
   {

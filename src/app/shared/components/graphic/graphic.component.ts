@@ -94,4 +94,7 @@ export class GraphicComponent implements OnInit {
     this.dolarService.changeInitialDate(dataInicial)
     this.dolarService.changeFinalDate(dataFinal)
   }
+
+
+  
 }

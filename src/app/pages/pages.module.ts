@@ -3,12 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { PagesRoutingModule } from './pages-routing.module';
-import { EventsComponent } from './events/events.component';
+import { AnalyseComponent } from '../shared/components/analyse/analyse.component';
 
 @NgModule({
-  declarations: [
-    EventsComponent
-  ],
+  declarations: [],
   imports: [CommonModule, PagesRoutingModule, SharedModule],
   exports: [],
 })

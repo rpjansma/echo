@@ -5,6 +5,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
 import { GraphicComponent } from './shared/components/graphic/graphic.component';
 import { EventsComponent } from './pages/events/events.component';
+import { HistoricComponent } from './pages/historic/historic.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,11 @@ const routes: Routes = [
   {
     path: 'eventos',
     loadChildren: () => import('./pages/events/events.module').then(module => module.EventsModule)
+  },
+
+  {
+    path: 'historico',
+    loadChildren: () => import('./pages/historic/historic.module').then(module => module.HistoricModule)
   },
 
   {

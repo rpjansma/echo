@@ -1,28 +1,28 @@
-<body class="h-auto d-inline-block p-3">
+<body class="container">
 
-	<div class="p-3">
-		<div class="table-responsive">
+	<div class="container p-3">
+		<div class="container p-3">
 			<div class="table-wrapper">
 				<div class="table-title">
 					<div class="row">
 						<div class="col-sm-6">
 							<h2>Gerencie seus <b>eventos</b></h2>
 						</div>
-						<div class="col-sm-6">
-							<button type="button" class="btn btn-success m-1 p-3" data-bs-toggle="modal"
+						<div class="col-sm-6 p-3 text-center">
+							<button type="button" class="btn btn-success m-2 p-3" data-bs-toggle="modal"
 								data-bs-target="#addEvent"><i class="bi bi-plus-circle"></i> <span> Cadastrar novo
 									evento</span></button>
-							<button type="button" class="btn btn-danger m-1 p-3" data-bs-toggle="modal"
+							<button type="button" class="btn btn-danger m-2 p-3" data-bs-toggle="modal"
 								data-bs-target="#deleteEventModal"><i class="bi bi-dash-circle"></i> <span>
 									Deletar</span></button>
-							<button type="button" class="btn btn-primary m-1 p-3" data-bs-toggle="modal"><i
+							<button type="button" class="btn btn-primary m-2 p-3" data-bs-toggle="modal"><i
 									class="bi bi-graph-up"></i> <span> Analisar evento(s)</span></button>
 						</div>
 					</div>
 				</div>
-				<table class="table table-striped table-hover">
+				<table class="table table-striped table-hover table-bordered">
 					<thead class="thead-dark">
-						<tr>
+						<tr class="text-center">
 							<th>
 								<span class="custom-checkbox">
 									<input type="checkbox" id="selectAll">
@@ -38,7 +38,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr class="text-center">
 							<td>
 								<span class="custom-checkbox">
 									<input type="checkbox" id="checkbox1" name="options[]" value="1">
@@ -51,9 +51,9 @@
 							<td>Transporte</td>
 							<td>Nacional</td>
 							<td>
-								<button type="button" class="btn" data-bs-toggle="modal"
+								<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
 									data-bs-target="#editEventModal"><i class="bi bi-pencil"></i></button>
-								<button type="button" class="btn" data-bs-toggle="modal"
+								<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
 									data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
 							</td>
 						</tr>
@@ -78,19 +78,22 @@
 			</div>
 		</div>
 
-		<div class="container p-3" style="background-color: gray">
+		<div class="container m-3">
 
-			<div class="sidebar left">
+			<div class="container m-3">
 
 				<div class="p-3">
-					<button type="button" class="btn btn-success m-1 p-1" data-bs-toggle="modal"
-					data-bs-target="#addEvent"><i class="bi bi-cash-coin"></i> <span class="p-3"> Dólar</span></button>
+
+					<button type="button" class="btn btn-outline-success m-2 p-3" data-bs-toggle="modal"
+					><i class="bi bi-cash-coin"></i> <span class="l-3
+					"> Dólar</span></button>
+
 				</div>
 
 
 			</div>
 
-			<echo-graphic></echo-graphic>
+			<echo-graphic id="graph"></echo-graphic>
 
 		</div>
 

@@ -1,4 +1,6 @@
+import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -7,7 +9,9 @@ import { AppComponent } from './app.component';
 import { RequestInterceptor } from './core/auth/request.interceptor';
 import { CoreModule } from './core/core.module';
 import { LoginModule } from './pages/login/login.module';
-import { SharedModule } from './shared/shared.module';
+
+registerLocaleData(localePt);
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +20,6 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     LoginModule,
     CoreModule,
-    SharedModule,
   ],
   providers: [
     CoreModule,

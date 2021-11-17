@@ -1,5 +1,5 @@
 export interface Event {
-  user: any;
+  user?: any;
   _id: string;
   title: string;
   start: Date;

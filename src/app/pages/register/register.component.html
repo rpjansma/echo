@@ -7,18 +7,24 @@
       <error-message *ngIf="registerForm.get('username')?.errors?.minlength" text="Insira pelo menos 3 caracteres">
       </error-message>
 
-      <div class="form-check form-check-inline">
+      <div class="col-12 text-center">
 
-        <input formControlName="birthday" type="date" class="form-control" placeholder="ANIVERSÁRIO" />
+        <div class="row">
+          <div class="col-lg-4">
+            <input formControlName="birthday" type="date" class="form-control col-md-4" placeholder="ANIVERSÁRIO" />
+          </div>
 
-        <div class="form-check form-check-inline">
-          <input type="radio" class="custom-control-input" id="SEX" name="sexo" mdbInput>
-          <label class="custom-control-label" for="defaultChecked">MASC</label>
-        </div>
+          <div class="col-lg-4">
+            <input type="radio" class="custom-control-input" id="SEX" name="sexo" mdbInput>
+            <label class="custom-control-label" for="defaultChecked">MASCULINO</label>
+          </div>
 
-        <div class="form-check form-check-inline">
-          <input type="radio" class="custom-control-input" id="SEX" name="sexo" mdbInput>
-          <label class="custom-control-label" for="defaultUnchecked">FEM</label>
+          <div class="col-lg-4">
+            <input type="radio" class="custom-control-input" id="SEX" name="sexo" mdbInput>
+            <label class="custom-control-label" for="defaultUnchecked">FEMININO</label>
+          </div>
+
+
         </div>
 
       </div>
@@ -69,11 +75,14 @@
       </button>
 
     </form>
-    
+
     <p class="text-center mt-2">
-      Já tem conta? <a [routerLink]="['/login']">Faça login!</a>
+      Já tem conta? <span [routerLink]="['/login']"
+        style="color: blue; text-decoration: underline; cursor: pointer">Faça login</span>!
     </p>
 
     <modal-loading *ngIf="loading"></modal-loading>
   </div>
+
+
 </body>

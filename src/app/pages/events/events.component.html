@@ -1,5 +1,4 @@
 <body class="container col-md-12">
-  <div class="container p-3">
     <div class="container p-3">
       <div class="table-wrapper">
         <div class="table-title">
@@ -15,21 +14,26 @@
                 <i class="bi bi-plus-circle"></i>
                 <span> Cadastrar novo evento</span>
               </button>
+              <!--
               <button
                 type="button"
                 class="btn btn-danger m-2 p-3"
                 data-bs-toggle="modal"
                 data-bs-target="#modalEvent"
               >
+              
                 <i class="bi bi-dash-circle"></i> <span> Deletar</span>
               </button>
+              -->
               <button
                 type="button"
                 class="btn btn-primary m-2 p-3"
                 data-bs-toggle="modal"
               >
+              
                 <i class="bi bi-graph-up"></i> <span> Analisar evento(s)</span>
               </button>
+              
             </div>
           </div>
         </div>
@@ -69,8 +73,9 @@
               <td class="card-title ">{{ event.title | uppercase }}</td>
               <td class="card-text">{{ event.start | date }}</td>
               <td class="card-text">{{ event.end | date }}</td>
-              <td>Transporte</td>
+              <td class="card-text">{{ event.sector | uppercase }}</td>
               <td>Nacional</td>
+
               <td>
                 <button
                   type="button"
@@ -83,8 +88,7 @@
                 <button
                   type="button"
                   class="btn pl-1 ml-1"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteEventModal"
+                  (click)="deleteEvent(event._id, deleteEventModal)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
@@ -125,12 +129,11 @@
 
       <echo-graphic id="graph"></echo-graphic>
     </div>
-  </div>
 
   <!-- Edit Modal HTML -->
   <ng-template #modalEvent let-close="close" class="modal fade" role="dialog">
-    <div #modalEventContent class="modal-header">
-      <h4 class="modal-title">New Event</h4>
+    <div #modalEventContent class="modal-header col-lg-12">
+      <h4 class="modal-title">Novo evento</h4>
       <button type="button" class="close" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -138,41 +141,90 @@
 
     <div class="modal-body">
       <form [formGroup]="eventForm" class="form" *ngIf="!loading">
-        <div class="form-group">
-          <label>Title</label>
+        <div class="form-group col-lg-12">
+          <label>Nome do Evento</label>
           <input formControlName="title" class="form-control" />
           <error-message
             *ngIf="isRequiredAndTouched('title')"
-            text="Title is required"
+            text="O nome do evento é necessário"
           ></error-message>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Start date</label>
+        <div class="col-12 text-center row">
 
-          <input
-            formControlName="start"
-            type="datetime-local"
-            class="form-control"
-          />
-          <error-message
-            *ngIf="isRequiredAndTouched('start')"
-            text="Start date is required"
-          ></error-message>
+          <div class="form-group col-lg-6">
+            <label class="form-label">Início</label>
+
+            <input
+              formControlName="start"
+              type="date"
+              class="form-control"
+            />
+            <error-message
+              *ngIf="isRequiredAndTouched('start')"
+              text="Data inicial é necessária"
+            ></error-message>
+          </div>
+
+          <div class="form-group col-lg-6">
+            <label>Data final</label>
+            <input
+              formControlName="end"
+              type="date"
+              class="form-control"
+            />
+            <error-message
+              *ngIf="isRequiredAndTouched('end')"
+              text="Data final é necessária"
+            ></error-message>
+          </div>
+
         </div>
 
-        <div class="form-group">
-          <label>End date</label>
-          <input
-            formControlName="end"
-            type="datetime-local"
-            class="form-control"
-          />
-          <error-message
-            *ngIf="isRequiredAndTouched('end')"
-            text="End date is required"
-          ></error-message>
+        <div class="col-12 text-center row">        
+          
+          <div class="form-group col-lg-6">
+            <label>Setor</label>
+            <input
+              formControlName="sector"
+              type="text"
+              class="form-control"
+            />
+            <error-message
+              *ngIf="isRequiredAndTouched('end')"
+              text="Setor é necessário"
+            ></error-message>
+          </div>
+
+          <div class="form-group col-lg-6 pt-4">
+            <div class="dropdown">
+              <button 
+              class="btn btn-outline-dark dropdown-toggle" 
+              type="button" 
+              id="localDropdown"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Local</button>
+    
+              <div class="dropdown-menu" aria-labelledby="localDropdown">
+                <a class="dropdown-item" id="nacional">Nacional</a>
+                <a class="dropdown-item" id="internacional">Internacional</a>
+              </div>
+            </div>
+
+            <error-message
+              *ngIf="isRequiredAndTouched('end')"
+              text="Local é necessário"
+            ></error-message>
+          </div>
+
         </div>
+
+
+        
+
+        
       </form>
 
       <modal-loading *ngIf="loading"></modal-loading>
@@ -186,10 +238,10 @@
         class="btn btn-outline-primary"
         (click)="newEvent()"
       >
-        Add Event
+        Cadastrar evento
       </button>
       <button type="button" class="btn btn-secondary" (click)="close()">
-        Close
+        Fechar
       </button>
     </div>
   </ng-template>
@@ -242,8 +294,36 @@
       </div>
     </div>
   </div>
+
   <!-- Delete Modal HTML -->
-  <div id="deleteEventModal" class="modal fade">
+
+  <ng-template #deleteEventModal let-close="close" class="modal fade" role="dialog">
+    <div #modalEventContent class="modal-header col-lg-12">
+      <h4 class="modal-title">Evento excluído com sucesso!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      O evento selecionado foi apagado.
+
+
+      <modal-loading *ngIf="loading"></modal-loading>
+
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">
+        Fechar
+      </button>
+    </div>
+  </ng-template>
+
+
+  <!--
+  <ng-template #deleteEventModal class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
         <form>
@@ -269,10 +349,13 @@
               data-bs-dismiss="modal"
               value="Cancelar"
             />
-            <input type="submit" class="btn btn-danger" value="Deletar" />
+            <input type="submit" class="btn btn-danger" value="Deletar"/>
           </div>
         </form>
       </div>
     </div>
-  </div>
+  </ng-template>
+
+  -->
+
 </body>

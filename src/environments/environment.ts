@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'https://rest-calendar-api.herokuapp.com',
+  api: 'https://rest-events-api.herokuapp.com',
 };
 
 

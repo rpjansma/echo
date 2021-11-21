@@ -1,13 +1,13 @@
-import { ChartType } from 'chart.js';
-import Chart from 'chart.js/auto';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import * as moment from 'moment';
+import { BaseChartDirective } from 'ng2-charts';
+import { BehaviorSubject } from 'rxjs';
+import { UserService } from 'src/app/core/services/user-service/user.service';
 
-import { Component, OnInit } from '@angular/core';
-import { waitForAsync } from '@angular/core/testing';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DolarService } from '../../../core/services/dolar-service/dolar.service';
-import { DolarServiceInterface, DolarServiceInterfaceApi } from '../../interfaces/dolar-interface';
+import { EventService } from '../../../core/services/event-service/event.service';
 
 @Component({
   selector: 'echo-graphic',
@@ -15,86 +15,82 @@ import { DolarServiceInterface, DolarServiceInterfaceApi } from '../../interface
   styleUrls: ['./graphic.component.scss'],
 })
 export class GraphicComponent implements OnInit {
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+  refresh: BehaviorSubject<any> = new BehaviorSubject(null);
   events: any[] = [];
-
   dateForm: FormGroup;
-  dolarEvents: Observable<DolarService>;
-  data$: Observable<DolarService[]>;
-  cotacaoCompra: number[] = [];
-  cotacaoVenda: number[] = [];
+  cotacaoVenda = [];
   dataCotacao: any[] = [];
-  myChart: Chart;
-  private data = {
-    labels: this.dataCotacao,
-    datasets: [
-      {
-        label: 'Valor de Venda',
-        backgroundColor: 'rgb(6C, 6C, 6C)',
-        borderColor: 'rgb(6C, 6C, 6C)',
-        data: this.cotacaoCompra,
-      },
-    ],
+  public chartOptions = {
+    scaleShowVerticalLines: false,
+    responsive: true,
   };
+  public chartLabels = [];
+  public chartType = 'line';
+  public chartLegend = true;
+  public chartData = [];
 
-  constructor(private dolarService: DolarService, private formBuilder: FormBuilder,) {
+  constructor(
+    private dolarService: DolarService,
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private eventService: EventService
+  ) {
     this.dateForm = this.formBuilder.group({
-      dataInicial: [
-        '01-01-2020',
-        [
-          Validators.required,
-        ],
-      ],
-      dataFinal: ['02-01-2020', [Validators.required]]
+      dataInicial: ['01-01-2020', [Validators.required]],
+      dataFinal: ['02-01-2020', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-    this.getData()
-    const canvas = <HTMLCanvasElement>document.getElementById('myChart');
-    const ctx = canvas.getContext('2d');
-
-    let config = {
-      type: 'line' as ChartType,
-      data: this.data,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top' as ChartType,
-          },
-          title: {
-            display: true,
-            text: 'Variação do Dolar',
-          },
-        },
-      },
-    };
-    this.myChart = new Chart(ctx, config as any);
+    this.getData();
+    this.chart.chart.update();
   }
 
   getData() {
     return this.dolarService.getDolarData().subscribe((data: any) => {
+      this.cotacaoVenda = [];
+      this.dataCotacao = [];
+      this.chartData = [];
       this.events = data.value;
-      this.cotacaoCompra = this.events.map((value) => value.cotacaoCompra);
       this.cotacaoVenda = this.events.map((value) => value.cotacaoVenda);
-      this.dataCotacao = this.events.map((value) => value.dataHoraCotacao);
+      this.dataCotacao = this.events.map((value) =>
+        moment(value.dataHoraCotacao).format('D MMM YY')
+      );
+      this.chartData.push({
+        data: this.cotacaoVenda,
+        label: 'Valor de Venda',
+        borderColor: 'rgb(6C, 6C, 6C)',
+        backgroundColor: 'rgb(6C, 6C, 6C)',
+      });
+      this.chartLabels = this.dataCotacao;
+      this.chart.chart.update();
     });
-  }
-
-  updateChart() {
-    this.getData();
-    this.myChart.data.datasets.map(valor => valor.data = this.cotacaoVenda)
-    this.myChart.data.labels = this.dataCotacao;
-    this.myChart.update();
   }
 
   updateApiDate() {
     const dataInicial = this.dateForm.get('dataInicial')?.value;
     const dataFinal = this.dateForm.get('dataFinal')?.value;
-    this.dolarService.changeInitialDate(dataInicial)
-    this.dolarService.changeFinalDate(dataFinal)
+    this.dolarService.changeInitialDate(dataInicial);
+    this.dolarService.changeFinalDate(dataFinal);
+    this.getData();
   }
 
+  fetchEventList(): void {
+    this.getData();
+    const id = this.userService.getUserId();
+    this.events = [];
+    this.eventService.getUserEvents(id).subscribe((res) => {
+      for (let i = 0; i < res.length; i++) {
+        this.events.push({
+          _id: res[i]._id,
+          title: res[i].title,
+          start: new Date(res[i].start),
+          end: new Date(res[i].end),
+        });
+      }
 
-  
+      this.refresh.next(this.events);
+    });
+  }
 }

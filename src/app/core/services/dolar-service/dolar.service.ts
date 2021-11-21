@@ -10,8 +10,8 @@ import { DolarServiceInterface } from '../../../shared/interfaces/dolar-interfac
   providedIn: 'root',
 })
 export class DolarService {
-  private dataInicial = '01-01-2021';
-  private dataFinal = '09-18-2021';
+  private dataFinal = '11-21-2021';
+  private dataInicial = '11-01-2021';
   private API_URL =
     'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata';
   constructor(private http: HttpClient) {}

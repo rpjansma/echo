@@ -1,3 +1,4 @@
+
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
@@ -20,6 +21,7 @@ registerLocaleData(localePt);
     AppRoutingModule,
     LoginModule,
     CoreModule,
+
   ],
   providers: [
     CoreModule,

@@ -34,6 +34,7 @@ export class EventsComponent implements OnInit, OnChanges {
       start: ['', Validators.required],
       end: ['', Validators.required],
       sector: ['', Validators.required],
+      local: ['', Validators.required],
 
     });
   }
@@ -69,8 +70,9 @@ export class EventsComponent implements OnInit, OnChanges {
     const start = this.eventForm.get('start')?.value;
     const end = this.eventForm.get('end')?.value;
     const sector = this.eventForm.get('sector')?.value;
+    const local = this.eventForm.get('local')?.value;
 
-    this.createEvent(user, title, start, end, sector);
+    this.createEvent(user, title, start, end, sector, local);
     this.eventForm.reset();
   }
 
@@ -80,13 +82,14 @@ export class EventsComponent implements OnInit, OnChanges {
     const start = this.eventForm.get('start')?.value;
     const end = this.eventForm.get('end')?.value;
     const sector = this.eventForm.get('sector')?.value;
+    const local = this.eventForm.get('local')?.value;
 
-    this.updateEvent(id, title, start, end, sector);
+    this.updateEvent(id, title, start, end, sector, local);
 
     this.eventForm.reset();
   }
 
-  createEvent(user, title, start, end, sector) {
+  createEvent(user, title, start, end, sector, local) {
     this.loading = true;
     this.eventService.createEvent(user, title, start, end, sector).subscribe(
       () => {
@@ -99,7 +102,7 @@ export class EventsComponent implements OnInit, OnChanges {
     return;
   }
 
-  updateEvent(id, title, start, end, sector) {
+  updateEvent(id, title, start, end, sector, local) {
     this.loading = true;
     this.eventService.updateEvent(id, title, start, end, sector).subscribe(
       () => {

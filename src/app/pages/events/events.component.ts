@@ -33,6 +33,8 @@ export class EventsComponent implements OnInit, OnChanges {
       title: ['', Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
+      sector: ['', Validators.required],
+
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,7 +70,6 @@ export class EventsComponent implements OnInit, OnChanges {
     const end = this.eventForm.get('end')?.value;
     const sector = this.eventForm.get('sector')?.value;
 
-
     this.createEvent(user, title, start, end, sector);
     this.eventForm.reset();
   }
@@ -78,8 +79,9 @@ export class EventsComponent implements OnInit, OnChanges {
     const title = this.eventForm.get('title')?.value;
     const start = this.eventForm.get('start')?.value;
     const end = this.eventForm.get('end')?.value;
+    const sector = this.eventForm.get('sector')?.value;
 
-    this.updateEvent(id, title, start, end);
+    this.updateEvent(id, title, start, end, sector);
 
     this.eventForm.reset();
   }
@@ -97,9 +99,9 @@ export class EventsComponent implements OnInit, OnChanges {
     return;
   }
 
-  updateEvent(id, title, start, end) {
+  updateEvent(id, title, start, end, sector) {
     this.loading = true;
-    this.eventService.updateEvent(id, title, start, end).subscribe(
+    this.eventService.updateEvent(id, title, start, end, sector).subscribe(
       () => {
         this.loading = false;
         this.fetchEventList();
@@ -111,10 +113,8 @@ export class EventsComponent implements OnInit, OnChanges {
     return;
   }
 
-  deleteEvent(eventToDelete: Event, id: any = ''): void {
+  deleteEvent(id, content): void {
     this.loading = true;
-    this.events = this.events.filter((event) => event !== eventToDelete);
-    id = eventToDelete._id;
     this.eventService.deleteEvent(id).subscribe(
       () => {
         this.fetchEventList();
@@ -122,6 +122,9 @@ export class EventsComponent implements OnInit, OnChanges {
       },
       () => {}
     );
+    this.refresh.next(this.event$)
+    this.modal.open(content)
+
   }
 
   isRequiredAndTouched(control: string) {

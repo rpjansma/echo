@@ -48,6 +48,7 @@ export class EventService {
       .post(
         API_URL + '/events',
         { user, title, start, end, sector },
+
         { observe: 'response' }
       )
       .pipe(
@@ -61,11 +62,11 @@ export class EventService {
       );
   }
 
-  updateEvent(id: any, title: string, start: Date, end: Date) {
+  updateEvent(id: any, title: string, start: Date, end: Date, sector: string) {
     return this.http
       .put(
         API_URL + '/events/' + id,
-        { title, start, end },
+        { title, start, end, sector },
         { observe: 'response' }
       )
       .pipe(

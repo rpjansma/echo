@@ -1,3 +1,7 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 form {
   text-align: left;
   width: 800px;
@@ -40,4 +44,8 @@ input {
 .secondline {
   display: flex;
   justify-content: space-between;
+}
+
+#link {
+  text-decoration: blue;
 }

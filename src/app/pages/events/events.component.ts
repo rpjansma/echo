@@ -66,8 +66,10 @@ export class EventsComponent implements OnInit, OnChanges {
     const title = this.eventForm.get('title')?.value;
     const start = this.eventForm.get('start')?.value;
     const end = this.eventForm.get('end')?.value;
+    const sector = this.eventForm.get('sector')?.value;
 
-    this.createEvent(user, title, start, end);
+
+    this.createEvent(user, title, start, end, sector);
     this.eventForm.reset();
   }
 
@@ -82,9 +84,9 @@ export class EventsComponent implements OnInit, OnChanges {
     this.eventForm.reset();
   }
 
-  createEvent(user, title, start, end) {
+  createEvent(user, title, start, end, sector) {
     this.loading = true;
-    this.eventService.createEvent(user, title, start, end).subscribe(
+    this.eventService.createEvent(user, title, start, end, sector).subscribe(
       () => {
         this.loading = false;
         this.fetchEventList();

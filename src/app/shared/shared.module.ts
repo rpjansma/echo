@@ -1,3 +1,5 @@
+import { ChartsModule } from 'ng2-charts';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,12 +12,12 @@ import { GraphicComponent } from './components/graphic/graphic.component';
 import { ModalLoadingComponent } from './components/modal-loading/modal-loading.component';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ChartsModule],
   declarations: [
     ErrorValidationMessageComponent,
     ModalLoadingComponent,
     GraphicComponent,
-    CarouselComponent
+    CarouselComponent,
   ],
   exports: [
     ErrorValidationMessageComponent,

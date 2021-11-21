@@ -1,7 +1,13 @@
 <div>
-  <canvas id="myChart" width="300" height="100"></canvas>
+  <canvas id="myChart"
+  baseChart
+            [datasets]="chartData"
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            [legend]="chartLegend"
+            [chartType]="chartType"></canvas>
 </div>
-<form [formGroup]="dateForm" class="form mt-4" (submit)="updateChart()">
+<form [formGroup]="dateForm" class="form mt-4" (submit)="getData()">
   <div class="form-group">
     <label>Data Inicial</label>
     <input
@@ -19,7 +25,6 @@
     />
   </div>
 
-  <button (click)="updateChart()">Dados do Gráfico</button>
 
 </form>
 <button (click)="updateApiDate()">Atualizar Datas</button>

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         const authToken = data.headers.get('x-access-token');
         this.userService.setToken(authToken);
         this.loading = false;
-        this.router.navigate(['']);
+        this.router.navigate(['/eventos']);
       },
       (error) => {
         this.loading = false;

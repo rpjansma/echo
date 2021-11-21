@@ -1,68 +1,49 @@
-<div class="bg-light ">
-  <nav class="navbar navbar-expand-lg navbar-light container">
-    <div class="container-fluid bg-light">
-      <a class="navbar-brand">
-        <img
-          class="navbar-brand img-fluid"
-          width="50px"
-          src="../../../../assets/logo.png"
-        />
-      </a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-2 me-auto mt-1">
-          <li class="nav-item">
-            <a class="nav-link active fw-bold" [routerLink]="['']" fragment="home" *ngIf="!isLogged()">HOME</a>
-          </li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-          <li class="nav-item">
-            <a
-              class="nav-link fw-bold"
-              [routerLink]="['']" fragment="quem-somos" *ngIf="!isLogged()"
-              >A ECHO</a
-            >
-          </li>
+    <a class="navbar-brand" [routerLink]="['']" fragment="home">
+      <img class="navbar-brand img-fluid" width="50px" src="../../../../assets/logo.png" />
+    </a>
 
-          <li class="nav-item">
-            <a
-              class="nav-link fw-bold"
-              [routerLink]="['']" fragment="services" *ngIf="!isLogged()"
-              >SERVIÇOS DISPONÍVEIS</a
-            >
-          </li>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-          <li class="nav-item">
-            <a
-              class="nav-link fw-bold"
-              [routerLink]="['eventos']"
-              *ngIf="isLogged()"
-              >EVENTOS</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link fw-bold"
-              [routerLink]="['historico']"
-              *ngIf="isLogged()"
-              >HISTÓRICO DE ANÁLISES</a
-            >
-          </li>
-        </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link active fw-bold" [routerLink]="['']" fragment="home" *ngIf="!isLogged()">HOME</a>
+        </li>
 
-        <form #login class="d-flex me-4" *ngIf="!isLogged()">
-          <button class="btn btn-outline-secondary" [routerLink]="['login']">
-            Login
+        <li class="nav-item">
+          <a class="nav-link fw-bold" [routerLink]="['']" fragment="quem-somos" *ngIf="!isLogged()">A ECHO</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link fw-bold" [routerLink]="['']" fragment="services" *ngIf="!isLogged()">SERVIÇOS
+            DISPONÍVEIS</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link fw-bold" [routerLink]="['eventos']" *ngIf="isLogged()">EVENTOS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-bold" [routerLink]="['historico']" *ngIf="isLogged()">HISTÓRICO DE ANÁLISES</a>
+        </li>
+      </ul>
+
+      <form #login class="d-flex me-4" *ngIf="!isLogged()">
+        <button class="btn btn-outline-secondary" [routerLink]="['login']">
+          Login
+        </button>
+      </form>
+
+      <div #logged *ngIf="isLogged()">
+        <form>
+          <button id="logout" class="mr-1 btn btn-outline-secondary" (click)="logout()">
+            Logout
           </button>
         </form>
-
-        <div #logged *ngIf="isLogged()">
-          <form>
-            <button id="logout" class="mr-1 btn btn-outline-secondary" (click)="logout()">
-              Logout
-            </button>
-          </form>
-        </div>
-
       </div>
+
     </div>
-  </nav>
-</div>
+</nav>

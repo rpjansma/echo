@@ -91,7 +91,7 @@ export class EventsComponent implements OnInit, OnChanges {
 
   createEvent(user, title, start, end, sector, local) {
     this.loading = true;
-    this.eventService.createEvent(user, title, start, end, sector).subscribe(
+    this.eventService.createEvent(user, title, start, end, sector, local).subscribe(
       () => {
         this.loading = false;
         this.fetchEventList();
@@ -104,7 +104,7 @@ export class EventsComponent implements OnInit, OnChanges {
 
   updateEvent(id, title, start, end, sector, local) {
     this.loading = true;
-    this.eventService.updateEvent(id, title, start, end, sector).subscribe(
+    this.eventService.updateEvent(id, title, start, end, sector, local).subscribe(
       () => {
         this.loading = false;
         this.fetchEventList();

@@ -110,7 +110,7 @@
 
                   <div class="form-group col-lg-6">
                     <label>Local</label>
-                    <select class="form-control show-tick" data-live-search="true" autofocus>
+                    <select class="form-control show-tick" data-live-search="true" ngModel="{{ event.local }}">
                       <option class="dropdown-item" id="nacional" value="nacional">Nacional</option>
                       <option class="dropdown-item" id="internacional" value="internacional">Internacional</option>
                     </select>
@@ -173,7 +173,7 @@
     <echo-graphic id="graph"></echo-graphic>
   </div>
 
-  <!-- Edit Modal HTML -->
+  <!-- Add Modal HTML -->
   <ng-template #modalEvent let-close="close" class="modal fade" role="dialog">
     <div #modalEventContent class="modal-header col-lg-12">
       <h4 class="modal-title">Novo evento</h4>
@@ -217,7 +217,7 @@
 
           <div class="form-group col-lg-6">
             <label>Local</label>
-            <select class="form-control show-tick" data-live-search="true" autofocus>
+            <select class="form-control show-tick" data-live-search="true" formControlName="local" type="text">
               <option class="dropdown-item" id="nacional" value="nacional">Nacional</option>
               <option class="dropdown-item" id="internacional" value="internacional">Internacional</option>
             </select>

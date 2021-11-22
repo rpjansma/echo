@@ -37,10 +37,7 @@
         </div>
       </div>
       <ng-template #dataEmpty> <modal-loading></modal-loading>> </ng-template>
-      <table
-        class="table table-bordered table-striped table-hover"
-
-      >
+      <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
           <tr class="text-center">
             <th>Nome do Evento</th>
@@ -62,14 +59,14 @@
             <td>
               <button
                 type="button"
-                class="btn pr-1 mr-1"
+                class="btn pr-2"
                 (click)="openModal(editEventModal)"
               >
                 <i class="bi bi-pencil"></i>
               </button>
               <button
                 type="button"
-                class="btn pl-1 ml-1"
+                class="btn pl-1"
                 (click)="deleteEvent(event._id, deleteEventModal)"
               >
                 <i class="bi bi-trash"></i>
@@ -177,14 +174,15 @@
                       (change)="selectOption($event.target.value)"
                       [(ngModel)]="selected"
                     >
-                      <option class="dropdown-item" [ngValue]="null" disabled>
+                      <option class="dropdown-item">
                         Escolha a Localidade
                       </option>
                       <option
                         class="dropdown-item"
                         *ngFor="let local of allLocals"
-                        [ngValue]="local"
-                      ></option>
+                      >
+                        {{ local }}
+                      </option>
                     </select>
 
                     <error-message
@@ -298,17 +296,20 @@
 
           <div class="form-group col-lg-6">
             <label>Local</label>
-            <select class="form-control show-tick" data-live-search="true">
-              <option class="dropdown-item" id="nacional" value="nacional">
-                Nacional
+            <select
+              formControlName="local"
+              class="form-control show-tick"
+              (change)="selectOption($event.target.value)"
+              [(ngModel)]="selected"
+            >
+              <option class="dropdown-item" [ngValue]="null" disabled>
+                Escolha a Localidade
               </option>
               <option
                 class="dropdown-item"
-                id="internacional"
-                value="internacional"
-              >
-                Internacional
-              </option>
+                *ngFor="let local of allLocals"
+                [ngValue]="local"
+              ></option>
             </select>
 
             <error-message

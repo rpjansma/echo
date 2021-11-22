@@ -21,7 +21,7 @@ export class EventsComponent implements OnInit, OnChanges {
   id = this.userService.getUserId();
   event$ = this.eventService.getUserEvents(this.id);
   events = [];
-  selected: string = 'Nacional';
+  selected: string = "Nacional";
 
   allLocals = ["Nacional", "Internacional"]
 
@@ -99,7 +99,6 @@ export class EventsComponent implements OnInit, OnChanges {
     const local = this.eventForm.get('local')?.value;
 
     this.updateEvent(id, title, start, end, sector, local);
-
     this.eventForm.reset();
   }
 

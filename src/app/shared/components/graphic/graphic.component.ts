@@ -67,13 +67,6 @@ export class GraphicComponent implements OnInit {
           label: 'Valor de Venda',
           borderColor: 'rgb(6C, 6C, 6C)',
           backgroundColor: 'rgb(6C, 6C, 6C)',
-        },
-        {
-          data: this.userEvents.map(value => value.start),
-          label: this.userEvents.map(value => value.title),
-          borderColor: 'rgb(123, 512, 341)',
-          backgroundColor: 'rgb(123, 512, 341)',
-          labels: this.userEvents.map(value => value.start)
         }
       );
       this.chartLabels = this.dataCotacao;

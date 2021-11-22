@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
     borderColor: "#3e95cd",
     data: [,5.2,5.2,5.2],
     labels: ['13/nov, 15/nov'],
-    fill: false
   }
 ];
 

@@ -17,10 +17,14 @@ import { EventService } from '../../core/services/event-service/event.service';
 export class EventsComponent implements OnInit, OnChanges {
   eventForm: FormGroup;
   loading: boolean = false;
-  events: Event[] = [];
-  refresh: BehaviorSubject<any> = new BehaviorSubject(null);
+  refresh: BehaviorSubject<any> = new BehaviorSubject(0);
   id = this.userService.getUserId();
   event$ = this.eventService.getUserEvents(this.id);
+  events = [];
+  selected: string = 'Nacional';
+
+  allLocals = ["Nacional", "Internacional"]
+
 
 
   constructor(
@@ -34,18 +38,26 @@ export class EventsComponent implements OnInit, OnChanges {
       start: ['', Validators.required],
       end: ['', Validators.required],
       sector: ['', Validators.required],
-      local: ['', Validators.required],
-
+      local: [null],
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
-    throw new Error('Method not implemented.');
-  }
-
-  ngOnInit() {
     this.eventForm.updateValueAndValidity.call(
       switchMap(() => this.eventService.getAllEvents())
     );
+  }
+
+  ngOnInit() {
+    console.log(this.events)
+    this.fetchEventList()
+    console.log(this.events)
+  }
+
+  selectOption(id: number) {
+    //getted from event
+    console.log(id);
+    //getted from binding
+    console.log(this.selected)
   }
 
   fetchEventList(): void {
@@ -57,7 +69,9 @@ export class EventsComponent implements OnInit, OnChanges {
           _id: res[i]._id,
           title: res[i].title,
           start: new Date(res[i].start),
-          end: new Date(res[i].end)
+          end: new Date(res[i].end),
+          sector: res[i].sector,
+          local: res[i].sector
         });
       }
       this.refresh.next(this.events);
@@ -70,7 +84,7 @@ export class EventsComponent implements OnInit, OnChanges {
     const start = this.eventForm.get('start')?.value;
     const end = this.eventForm.get('end')?.value;
     const sector = this.eventForm.get('sector')?.value;
-    const local = this.eventForm.get('local')?.value;
+    const local = this.selected;
 
     this.createEvent(user, title, start, end, sector, local);
     this.eventForm.reset();
@@ -91,7 +105,7 @@ export class EventsComponent implements OnInit, OnChanges {
 
   createEvent(user, title, start, end, sector, local) {
     this.loading = true;
-    this.eventService.createEvent(user, title, start, end, sector).subscribe(
+    this.eventService.createEvent(user, title, start, end, sector, local).subscribe(
       () => {
         this.loading = false;
         this.fetchEventList();
@@ -104,7 +118,7 @@ export class EventsComponent implements OnInit, OnChanges {
 
   updateEvent(id, title, start, end, sector, local) {
     this.loading = true;
-    this.eventService.updateEvent(id, title, start, end, sector).subscribe(
+    this.eventService.updateEvent(id, title, start, end, sector, local).subscribe(
       () => {
         this.loading = false;
         this.fetchEventList();

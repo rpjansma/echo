@@ -1,5 +1,6 @@
-<div>
+<div class="">
   <canvas id="myChart"
+  width="150" height="40"
   baseChart
             [datasets]="chartData"
             [labels]="chartLabels"
@@ -24,7 +25,5 @@
       placeholder="Data final (formato: MM-DD-YYYY)"
     />
   </div>
-
-
 </form>
-<button (click)="updateApiDate()">Atualizar Datas</button>
+<button (click)="updateApiDate()">Atualizar Dados</button>

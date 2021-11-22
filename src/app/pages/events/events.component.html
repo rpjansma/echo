@@ -7,7 +7,11 @@
             <h2>Gerencie seus <b>eventos</b></h2>
           </div>
           <div class="col-sm-6 p-3 text-center">
-            <button type="button" class="btn btn-success m-2 p-3" (click)="openModal(modalEvent)">
+            <button
+              type="button"
+              class="btn btn-success m-2 p-3"
+              (click)="openModal(modalEvent)"
+            >
               <i class="bi bi-plus-circle"></i>
               <span> Cadastrar novo evento</span>
             </button>
@@ -18,22 +22,25 @@
                 data-bs-toggle="modal"
                 data-bs-target="#modalEvent"
               >
-              
+
                 <i class="bi bi-dash-circle"></i> <span> Deletar</span>
               </button>
               -->
-            <button type="button" class="btn btn-primary m-2 p-3" data-bs-toggle="modal">
-
+            <button
+              type="button"
+              class="btn btn-primary m-2 p-3"
+              data-bs-toggle="modal"
+            >
               <i class="bi bi-graph-up"></i> <span> Analisar evento(s)</span>
             </button>
-
           </div>
         </div>
       </div>
-      <ng-template #dataEmpty>
-        <modal-loading></modal-loading>>
-      </ng-template>
-      <table class="table table-bordered table-striped table-hover " *ngIf="event$ | async as events; else dataEmpty">
+      <ng-template #dataEmpty> <modal-loading></modal-loading>> </ng-template>
+      <table
+        class="table table-bordered table-striped table-hover"
+
+      >
         <thead class="thead-dark">
           <tr class="text-center">
             <th>Nome do Evento</th>
@@ -46,27 +53,45 @@
         </thead>
         <tbody *ngFor="let event of events">
           <tr class="text-center">
-            <td class="card-title ">{{ event.title | uppercase }}</td>
+            <td class="card-title">{{ event.title | uppercase }}</td>
             <td class="card-text">{{ event.start | date }}</td>
             <td class="card-text">{{ event.end | date }}</td>
             <td class="card-text">{{ event.sector | uppercase }}</td>
             <td class="card-text">{{ event.local | uppercase }}</td>
 
             <td>
-              <button type="button" class="btn pr-1 mr-1" (click)="openModal(editEventModal)">
+              <button
+                type="button"
+                class="btn pr-1 mr-1"
+                (click)="openModal(editEventModal)"
+              >
                 <i class="bi bi-pencil"></i>
               </button>
-              <button type="button" class="btn pl-1 ml-1" (click)="deleteEvent(event._id, deleteEventModal)">
+              <button
+                type="button"
+                class="btn pl-1 ml-1"
+                (click)="deleteEvent(event._id, deleteEventModal)"
+              >
                 <i class="bi bi-trash"></i>
               </button>
             </td>
           </tr>
 
           <!-- Edit Modal HTML -->
-          <ng-template #editEventModal let-close="close" class="modal fade" role="dialog">
+          <ng-template
+            #editEventModal
+            let-close="close"
+            class="modal fade"
+            role="dialog"
+          >
             <div #editEventModalContent class="modal-header col-lg-12">
               <h4 class="modal-title">Atualizar evento</h4>
-              <button type="button" class="close" aria-label="Close" (click)="close()">
+              <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="close()"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -75,64 +100,111 @@
               <form [formGroup]="eventForm" class="form" *ngIf="!loading">
                 <div class="form-group col-lg-12">
                   <label>Nome do Evento</label>
-                  <input formControlName="title" class="form-control" ngModel="{{ event.title }}" autofocus />
-                  <error-message *ngIf="eventForm.get('title')?.errors?.required && 
-          eventForm.controls['title'].touched" text="Nome é necessário"></error-message>
+                  <input
+                    formControlName="title"
+                    class="form-control"
+                    ngModel="{{ event.title }}"
+                  />
+                  <error-message
+                    *ngIf="
+                      eventForm.get('title')?.errors?.required &&
+                      eventForm.controls['title'].touched
+                    "
+                    text="Nome é necessário"
+                  ></error-message>
                 </div>
 
                 <div class="col-12 text-center row">
-
                   <div class="form-group col-lg-6">
                     <label class="form-label">Início</label>
 
-                    <input formControlName="start" type="date" class="form-control" ngModel="{{ event.start }}" />
-                    <error-message *ngIf="eventForm.get('start')?.errors?.required && 
-                    eventForm.controls['start'].touched" text="Data inicial é necessária"></error-message>
+                    <input
+                      formControlName="start"
+                      type="date"
+                      class="form-control"
+                      ngModel="{{ event.start }}"
+                    />
+                    <error-message
+                      *ngIf="
+                        eventForm.get('start')?.errors?.required &&
+                        eventForm.controls['start'].touched
+                      "
+                      text="Data inicial é necessária"
+                    ></error-message>
                   </div>
 
                   <div class="form-group col-lg-6">
                     <label>Data final</label>
-                    <input formControlName="end" type="date" class="form-control" ngModel="{{ event.end }}" />
-                    <error-message *ngIf="eventForm.get('end')?.errors?.required && 
-                    eventForm.controls['end'].touched" text="Data final é necessária"></error-message>
+                    <input
+                      formControlName="end"
+                      type="date"
+                      class="form-control"
+                      ngModel="{{ event.end }}"
+                    />
+                    <error-message
+                      *ngIf="
+                        eventForm.get('end')?.errors?.required &&
+                        eventForm.controls['end'].touched
+                      "
+                      text="Data final é necessária"
+                    ></error-message>
                   </div>
-
                 </div>
 
                 <div class="col-12 text-center row">
-
                   <div class="form-group col-lg-6">
                     <label>Setor</label>
-                    <input formControlName="sector" type="text" class="form-control" ngModel="{{ event.sector }}" />
-                    <error-message *ngIf="eventForm.get('sector')?.errors?.required && 
-                    eventForm.controls['sector'].touched" text="Setor é necessário"></error-message>
+                    <input
+                      formControlName="sector"
+                      type="text"
+                      class="form-control"
+                      ngModel="{{ event.sector }}"
+                    />
+                    <error-message
+                      *ngIf="
+                        eventForm.get('sector')?.errors?.required &&
+                        eventForm.controls['sector'].touched
+                      "
+                      text="Setor é necessário"
+                    ></error-message>
                   </div>
 
                   <div class="form-group col-lg-6">
                     <label>Local</label>
-                    <select class="form-control show-tick" data-live-search="true" autofocus>
-                      <option class="dropdown-item" id="nacional" value="nacional">Nacional</option>
-                      <option class="dropdown-item" id="internacional" value="internacional">Internacional</option>
+                    <select
+                      formControlName="local"
+                      class="form-control show-tick"
+                      (change)="selectOption($event.target.value)"
+                      [(ngModel)]="selected"
+                    >
+                      <option class="dropdown-item" [ngValue]="null" disabled>
+                        Escolha a Localidade
+                      </option>
+                      <option
+                        class="dropdown-item"
+                        *ngFor="let local of allLocals"
+                        [ngValue]="local"
+                      ></option>
                     </select>
-        
-                    <error-message *ngIf="isRequiredAndTouched('local')" text="Local é necessário"></error-message>
+
+                    <error-message
+                      *ngIf="isRequiredAndTouched('local')"
+                      text="Local é necessário"
+                    ></error-message>
                   </div>
-
                 </div>
-
-
-
-
-
               </form>
 
               <modal-loading *ngIf="loading"></modal-loading>
-
             </div>
 
             <div class="modal-footer">
-              <button type="button" [disabled]="eventForm.invalid" class="btn btn-outline-primary"
-                (click)="updateEvent()">
+              <button
+                type="button"
+                [disabled]="eventForm.invalid"
+                class="btn btn-outline-primary"
+                (click)="updateEvent()"
+              >
                 Atualizar evento
               </button>
               <button type="button" class="btn btn-secondary" (click)="close()">
@@ -140,7 +212,6 @@
               </button>
             </div>
           </ng-template>
-
         </tbody>
       </table>
 
@@ -157,21 +228,22 @@
 						<li class="page-item"><a href="#" class="page-link">Próximo</a></li>
 					</ul>
 				</div>
-				-->
+				--></div>
+  </div>
+
+  <div class="">
+    <div class="p-3">
+      <button
+        type="button"
+        class="btn btn-outline-success m-2 p-3"
+        data-bs-toggle="modal"
+      >
+        <i class="bi bi-cash-coin"></i> <span class="l-3"> Dólar</span>
+      </button>
     </div>
   </div>
 
-  <div class="container m-3">
-    <div class="container m-3">
-      <div class="p-3">
-        <button type="button" class="btn btn-outline-success m-2 p-3" data-bs-toggle="modal">
-          <i class="bi bi-cash-coin"></i> <span class="l-3"> Dólar</span>
-        </button>
-      </div>
-    </div>
-
-    <echo-graphic id="graph"></echo-graphic>
-  </div>
+  <echo-graphic id="graph" class="container"></echo-graphic>
 
   <!-- Edit Modal HTML -->
   <ng-template #modalEvent let-close="close" class="modal fade" role="dialog">
@@ -187,58 +259,76 @@
         <div class="form-group col-lg-12">
           <label>Nome do Evento</label>
           <input formControlName="title" class="form-control" />
-          <error-message *ngIf="isRequiredAndTouched('title')" text="O nome do evento é necessário"></error-message>
+          <error-message
+            *ngIf="isRequiredAndTouched('title')"
+            text="O nome do evento é necessário"
+          ></error-message>
         </div>
 
         <div class="col-12 text-center row">
-
           <div class="form-group col-lg-6">
             <label class="form-label">Início</label>
 
             <input formControlName="start" type="date" class="form-control" />
-            <error-message *ngIf="isRequiredAndTouched('start')" text="Data inicial é necessária"></error-message>
+            <error-message
+              *ngIf="isRequiredAndTouched('start')"
+              text="Data inicial é necessária"
+            ></error-message>
           </div>
 
           <div class="form-group col-lg-6">
             <label>Data final</label>
             <input formControlName="end" type="date" class="form-control" />
-            <error-message *ngIf="isRequiredAndTouched('end')" text="Data final é necessária"></error-message>
+            <error-message
+              *ngIf="isRequiredAndTouched('end')"
+              text="Data final é necessária"
+            ></error-message>
           </div>
-
         </div>
 
         <div class="col-12 text-center row">
-
           <div class="form-group col-lg-6">
             <label>Setor</label>
             <input formControlName="sector" type="text" class="form-control" />
-            <error-message *ngIf="isRequiredAndTouched('end')" text="Setor é necessário"></error-message>
+            <error-message
+              *ngIf="isRequiredAndTouched('end')"
+              text="Setor é necessário"
+            ></error-message>
           </div>
 
           <div class="form-group col-lg-6">
             <label>Local</label>
-            <select class="form-control show-tick" data-live-search="true" autofocus>
-              <option class="dropdown-item" id="nacional" value="nacional">Nacional</option>
-              <option class="dropdown-item" id="internacional" value="internacional">Internacional</option>
+            <select class="form-control show-tick" data-live-search="true">
+              <option class="dropdown-item" id="nacional" value="nacional">
+                Nacional
+              </option>
+              <option
+                class="dropdown-item"
+                id="internacional"
+                value="internacional"
+              >
+                Internacional
+              </option>
             </select>
 
-            <error-message *ngIf="isRequiredAndTouched('local')" text="Local é necessário"></error-message>
+            <error-message
+              *ngIf="isRequiredAndTouched('local')"
+              text="Local é necessário"
+            ></error-message>
           </div>
-
         </div>
-
-
-
-
-
       </form>
 
       <modal-loading *ngIf="loading"></modal-loading>
-
     </div>
 
     <div class="modal-footer">
-      <button type="button" [disabled]="eventForm.invalid" class="btn btn-outline-primary" (click)="newEvent()">
+      <button
+        type="button"
+        [disabled]="eventForm.invalid"
+        class="btn btn-outline-primary"
+        (click)="newEvent()"
+      >
         Cadastrar evento
       </button>
       <button type="button" class="btn btn-secondary" (click)="close()">
@@ -246,15 +336,6 @@
       </button>
     </div>
   </ng-template>
-
-
-
-
-
-
-
-
-
 
   <!--
   <div id="editEventModal" class="modal fade">
@@ -308,7 +389,12 @@
 -->
   <!-- Delete Modal HTML -->
 
-  <ng-template #deleteEventModal let-close="close" class="modal fade" role="dialog">
+  <ng-template
+    #deleteEventModal
+    let-close="close"
+    class="modal fade"
+    role="dialog"
+  >
     <div #modalEventContent class="modal-header col-lg-12">
       <h4 class="modal-title">Evento excluído com sucesso!</h4>
       <button type="button" class="close" aria-label="Close" (click)="close()">
@@ -317,12 +403,9 @@
     </div>
 
     <div class="modal-body">
-
       O evento selecionado foi apagado.
 
-
       <modal-loading *ngIf="loading"></modal-loading>
-
     </div>
 
     <div class="modal-footer">
@@ -331,7 +414,6 @@
       </button>
     </div>
   </ng-template>
-
 
   <!--
   <ng-template #deleteEventModal class="modal fade">
@@ -368,5 +450,4 @@
   </ng-template>
 
   -->
-
 </body>

@@ -1,3 +1,4 @@
+import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { CommonModule } from '@angular/common';
@@ -10,7 +11,7 @@ import { HomeComponent } from './home.component';
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, SharedModule, HomeRoutingModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, SharedModule, HomeRoutingModule, ChartsModule],
   exports: [HomeComponent],
 })
 export class HomeModule {}

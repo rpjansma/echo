@@ -17,7 +17,8 @@ import { EventService } from '../../../core/services/event-service/event.service
 export class GraphicComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   refresh: BehaviorSubject<any> = new BehaviorSubject(null);
-  events: any[] = [];
+  dolarEvents: any[] = [];
+  userEvents: any[] = [];
   dateForm: FormGroup;
   cotacaoVenda = [];
   dataCotacao: any[] = [];
@@ -30,6 +31,9 @@ export class GraphicComponent implements OnInit {
   public chartLegend = true;
   public chartData = [];
 
+  id = this.userService.getUserId();
+  event$ = this.eventService.getUserEvents(this.id);
+
   constructor(
     private dolarService: DolarService,
     private formBuilder: FormBuilder,
@@ -38,12 +42,12 @@ export class GraphicComponent implements OnInit {
   ) {
     this.dateForm = this.formBuilder.group({
       dataInicial: ['01-01-2020', [Validators.required]],
-      dataFinal: ['02-01-2020', [Validators.required]],
+      dataFinal: ['11-22-2020', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-    this.getData();
+    this.fetchEventList();
     this.chart.chart.update();
   }
 
@@ -52,17 +56,26 @@ export class GraphicComponent implements OnInit {
       this.cotacaoVenda = [];
       this.dataCotacao = [];
       this.chartData = [];
-      this.events = data.value;
-      this.cotacaoVenda = this.events.map((value) => value.cotacaoVenda);
-      this.dataCotacao = this.events.map((value) =>
+      this.dolarEvents = data.value;
+      this.cotacaoVenda = this.dolarEvents.map((value) => value.cotacaoVenda);
+      this.dataCotacao = this.dolarEvents.map((value) =>
         moment(value.dataHoraCotacao).format('D MMM YY')
       );
-      this.chartData.push({
-        data: this.cotacaoVenda,
-        label: 'Valor de Venda',
-        borderColor: 'rgb(6C, 6C, 6C)',
-        backgroundColor: 'rgb(6C, 6C, 6C)',
-      });
+      this.chartData.push(
+        {
+          data: this.cotacaoVenda,
+          label: 'Valor de Venda',
+          borderColor: 'rgb(6C, 6C, 6C)',
+          backgroundColor: 'rgb(6C, 6C, 6C)',
+        },
+        {
+          data: this.userEvents.map(value => value.start),
+          label: this.userEvents.map(value => value.title),
+          borderColor: 'rgb(123, 512, 341)',
+          backgroundColor: 'rgb(123, 512, 341)',
+          labels: this.userEvents.map(value => value.start)
+        }
+      );
       this.chartLabels = this.dataCotacao;
       this.chart.chart.update();
     });
@@ -79,18 +92,20 @@ export class GraphicComponent implements OnInit {
   fetchEventList(): void {
     this.getData();
     const id = this.userService.getUserId();
-    this.events = [];
+    this.userEvents = [];
     this.eventService.getUserEvents(id).subscribe((res) => {
       for (let i = 0; i < res.length; i++) {
-        this.events.push({
+        this.userEvents.push({
           _id: res[i]._id,
           title: res[i].title,
           start: new Date(res[i].start),
           end: new Date(res[i].end),
+          sector: res[i].sector,
+          local: res[i].sector,
         });
       }
 
-      this.refresh.next(this.events);
+      this.refresh.next(this.userEvents);
     });
   }
 }

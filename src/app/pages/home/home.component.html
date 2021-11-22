@@ -1,15 +1,27 @@
 <div class="" id="home">
-
   <c-carousel></c-carousel>
-
 </div>
 
 <div class="" id="quem-somos">
-
-  <div class="d-flex col-md-12 col-sm-12 vh-100 text-white bg-dark" id="quem_somos">
-    <div class="d-flex align-items-center jutify-content-center col-md-12 col-sm-12 vw-100">
-      <img src="../../../assets/echo.png" id="echo-logo" class="col-xl-3 col-md-10 pe-5 w-15 p-5" />
-      <p class="lead my-5 col-md-6 fw-normal ">
+  <div
+    class="d-flex col-md-12 col-sm-12 vh-100 text-white bg-dark"
+    id="quem_somos"
+  >
+    <div
+      class="
+        d-flex
+        align-items-center
+        jutify-content-center
+        col-md-12 col-sm-12
+        vw-100
+      "
+    >
+      <img
+        src="../../../assets/echo.png"
+        id="echo-logo"
+        class="col-xl-3 col-md-10 pe-5 w-15 p-5"
+      />
+      <p class="lead my-5 col-md-6 fw-normal">
         Página web que reúne todos os principais índices econômicos do mercado
         nacional e internacional para análise das movimentações das economias
         diante de eventos históricos. Os índices considerados são dados ligados
@@ -18,17 +30,29 @@
       </p>
     </div>
   </div>
-
 </div>
 
 <div class="col-md-12 col-sm-12 pt-4" id="services">
-  <div id="graphic">
-    <h3 class="fw-bold pb-4 fs-3">VEJA COMO FORAM OS MOVIMENTOS DOS <br> PRINCIPAIS ÍNDICES ECONÔMICOS DO MERCADO</h3>
-    <echo-graphic></echo-graphic>
+  <div id="graphic" class="d-flex align-items-center flex-column">
+    <h3 class="fw-bold pb-4 fs-3">
+      VEJA COMO FORAM OS MOVIMENTOS DOS PRINCIPAIS ÍNDICES ECONÔMICOS DO MERCADO
+    </h3>
+      <canvas
+        class="col-md-12"
+        width="300" height="100"
+        id="myChart"
+        baseChart
+        [datasets]="chartData"
+        [labels]="chartLabels"
+        [options]="chartOptions"
+        [legend]="chartLegend"
+        [chartType]="chartType"
+      ></canvas>
+
   </div>
 
-  <div class="py-2 bg-white" id="feedback">
-    <div class="col-12 text-center pt-4">
+  <div class="py-2 bg-white pt-4" id="feedback">
+    <div class="col-12 text-center ">
       <h3 class="fw-bold pb-4 fs-3 text-start">O QUE FALAM DA GENTE...</h3>
       <div class="row">
         <div class="col-lg-4">
@@ -61,5 +85,4 @@
       </div>
     </div>
   </div>
-
 </div>

@@ -43,11 +43,11 @@ export class EventService {
       );
   }
 
-  createEvent(user: string, title: string, start: Date, end: Date, sector: String) {
+  createEvent(user: string, title: string, start: Date, end: Date, sector: String, local: string) {
     return this.http
       .post(
         API_URL + '/events',
-        { user, title, start, end, sector },
+        { user, title, start, end, sector, local },
 
         { observe: 'response' }
       )
@@ -62,11 +62,11 @@ export class EventService {
       );
   }
 
-  updateEvent(id: any, title: string, start: Date, end: Date, sector: string) {
+  updateEvent(id: any, title: string, start: Date, end: Date, sector: string, local: string) {
     return this.http
       .put(
         API_URL + '/events/' + id,
-        { title, start, end, sector },
+        { title, start, end, sector, local },
         { observe: 'response' }
       )
       .pipe(

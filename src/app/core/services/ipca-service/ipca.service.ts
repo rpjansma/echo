@@ -9,43 +9,38 @@ import { DolarServiceInterface } from '../../../shared/interfaces/dolar-interfac
 @Injectable({
   providedIn: 'root',
 })
-export class DolarService {
-  private initialDate = '11-21-2021';
-  private finalDate = '11-01-2021';
+export class IpcaService {
+  private initialDate = '11/01/2021';
+  private finalDate = '21/11/2021';
   private API_URL =
-    'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata';
+    'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/';
   constructor(private http: HttpClient) {}
 
-  getDolarData(): Observable<DolarServiceInterface> {
+  getIpcaData(){
     let initialDate = this.initialDate
     let finalDate = this.finalDate
     return this.http
-      .get<DolarServiceInterface[]>(
+      .get(
         this.API_URL +
-          "/CotacaoDolarPeriodo(dataInicial='" +
+          "dados?formato=json&dataInicial=" +
           initialDate +
-          "',dataFinalCotacao='" +
-          finalDate +
-          "')?$format=json",
-        {
-          observe: 'body',
-          responseType: 'json',
-        }
+          "&dataFinal=" +
+          finalDate
       )
       .pipe(
         map((res) => res),
         catchError((error) => {
-          alert('Sorry, we had an error. Can you try again?');
+          alert('DEU RUIM NA API DO IPCA MANÉ');
           return of(null);
         })
       );
   }
 
   changeInitialDate(date: string) {
-    this.finalDate = date;
+    this.initialDate = date;
   }
 
   changeFinalDate(date: string) {
-    this.initialDate = date;
+    this.finalDate = date;
   }
 }

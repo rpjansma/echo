@@ -171,7 +171,7 @@
                     <select
                       formControlName="local"
                       class="form-control show-tick"
-                      (change)="selectOption($event.target.value)"
+                      (change)="selectOption($event)"
                       [(ngModel)]="selected"
                     >
                       <option class="dropdown-item">
@@ -180,6 +180,7 @@
                       <option
                         class="dropdown-item"
                         *ngFor="let local of allLocals"
+                        [ngValue]="local"
                       >
                         {{ local }}
                       </option>
@@ -201,7 +202,7 @@
                 type="button"
                 [disabled]="eventForm.invalid"
                 class="btn btn-outline-primary"
-                (click)="updateEvent()"
+                (click)="editEvent(event._id)"
               >
                 Atualizar evento
               </button>

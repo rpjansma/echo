@@ -53,11 +53,15 @@ export class EventsComponent implements OnInit, OnChanges {
     console.log(this.events)
   }
 
-  selectOption(id: number) {
-    //getted from event
-    console.log(id);
-    //getted from binding
-    console.log(this.selected)
+  selectOption(e) {
+    console.log(e.value)
+    this.local.setValue(e.target.value, {
+      onlySelf: true
+    })
+  }
+
+  get local() {
+    return this.eventForm.get('local');
   }
 
   fetchEventList(): void {
@@ -84,7 +88,7 @@ export class EventsComponent implements OnInit, OnChanges {
     const start = this.eventForm.get('start')?.value;
     const end = this.eventForm.get('end')?.value;
     const sector = this.eventForm.get('sector')?.value;
-    const local = this.selected;
+    const local = this.eventForm.get('local')?.value;
 
     this.createEvent(user, title, start, end, sector, local);
     this.eventForm.reset();

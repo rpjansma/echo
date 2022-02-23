@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DolarService } from '../../../core/services/dolar-service/dolar.service';
 import { EventService } from '../../../core/services/event-service/event.service';
+import { IpcaService } from '../../../core/services/ipca-service/ipca.service';
+import { NewsService } from '../../../core/services/news-service/news.service';
 
 @Component({
   selector: 'echo-graphic',
@@ -17,11 +19,17 @@ import { EventService } from '../../../core/services/event-service/event.service
 export class GraphicComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   refresh: BehaviorSubject<any> = new BehaviorSubject(null);
-  dolarEvents: any[] = [];
+  ipcaEvents: any[] = [];
   userEvents: any[] = [];
+  newsEvents: any[] = [];
   dateForm: FormGroup;
   cotacaoVenda = [];
+  resultadoIpca = [];
   dataCotacao: any[] = [];
+  noticiaTitle = [];
+  noticiaData = [];
+  noticiaEx = ['potato', 'batata'];
+
   public chartOptions = {
     scaleShowVerticalLines: false,
     responsive: true,
@@ -36,9 +44,11 @@ export class GraphicComponent implements OnInit {
 
   constructor(
     private dolarService: DolarService,
+    private ipcaService: IpcaService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private eventService: EventService
+    private eventService: EventService,
+    private newsService: NewsService
   ) {
     this.dateForm = this.formBuilder.group({
       dataInicial: ['01-01-2020', [Validators.required]],
@@ -47,31 +57,71 @@ export class GraphicComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchEventList();
+    this.getData();
     this.chart.chart.update();
   }
 
   getData() {
-    return this.dolarService.getDolarData().subscribe((data: any) => {
-      this.cotacaoVenda = [];
-      this.dataCotacao = [];
-      this.chartData = [];
-      this.dolarEvents = data.value;
-      this.cotacaoVenda = this.dolarEvents.map((value) => value.cotacaoVenda);
-      this.dataCotacao = this.dolarEvents.map((value) =>
+    this.chartData = [];
+    /*this.dolarService.getDolarData().subscribe((data: any) => {
+      this.cotacaoVenda = data.value;
+      this.cotacaoVenda = this.cotacaoVenda.map((value) => value.cotacaoVenda);
+      this.dataCotacao = this.cotacaoVenda.map((value) =>
         moment(value.dataHoraCotacao).format('D MMM YY')
       );
-      this.chartData.push(
-        {
-          data: this.cotacaoVenda,
-          label: 'Valor de Venda',
-          borderColor: 'rgb(6C, 6C, 6C)',
-          backgroundColor: 'rgb(6C, 6C, 6C)',
-        }
+      this.chartData.push({
+        data: this.cotacaoVenda,
+        label: 'Valor de Venda',
+        borderColor: '#fd7e14',
+        backgroundColor: '#fd7e14',
+      });
+      this.chartLabels = this.dataCotacao;
+      this.chart.chart.update();
+    });*/
+
+    this.ipcaService.getIpcaData().subscribe((data: any) => {
+      this.ipcaEvents = data.value;
+      this.resultadoIpca = this.ipcaEvents.map((value) => value.valor);
+      this.dataCotacao = this.ipcaEvents.map((value) =>
+        moment(value.data).format('D MMM YY')
       );
+      this.chartData.push({
+        data: this.resultadoIpca,
+        label: 'Valor de Venda',
+        borderColor: 'red',
+        backgroundColor: 'red',
+      });
       this.chartLabels = this.dataCotacao;
       this.chart.chart.update();
     });
+
+
+  }
+
+  updateNews() {
+    this.newsService.getNewsData().subscribe((res) => {
+
+      console.log(res);
+
+      let articles = res.articles;
+
+      for (let i = 0; i < articles.length; i++) {
+        this.newsEvents.push({
+          title: articles[i].title,
+          date: new Date(articles[i].publishedAt),
+        });
+      }
+      this.noticiaTitle = this.newsEvents.map((value) => value.title);
+      this.noticiaData = this.newsEvents.map((value) => value.date);
+      this.chartData.push({
+        data: this.cotacaoVenda,
+        label: 'Noticia',
+        borderColor: 'rgb(6C, 6C, 6C)',
+        backgroundColor: 'rgb(6C, 6C, 6C)',
+        labels: this.noticiaData,
+      });
+    });
+    this.chart.chart.update();
   }
 
   updateApiDate() {
@@ -82,23 +132,23 @@ export class GraphicComponent implements OnInit {
     this.getData();
   }
 
-  fetchEventList(): void {
-    this.getData();
-    const id = this.userService.getUserId();
-    this.userEvents = [];
-    this.eventService.getUserEvents(id).subscribe((res) => {
-      for (let i = 0; i < res.length; i++) {
-        this.userEvents.push({
-          _id: res[i]._id,
-          title: res[i].title,
-          start: new Date(res[i].start),
-          end: new Date(res[i].end),
-          sector: res[i].sector,
-          local: res[i].sector,
-        });
-      }
+  // fetchEventList(): void {
+  //   this.getData();
+  //   const id = this.userService.getUserId();
+  //   this.userEvents = [];
+  //   this.eventService.getUserEvents(id).subscribe((res) => {
+  //     for (let i = 0; i < res.length; i++) {
+  //       this.userEvents.push({
+  //         _id: res[i]._id,
+  //         title: res[i].title,
+  //         start: new Date(res[i].start),
+  //         end: new Date(res[i].end),
+  //         sector: res[i].sector,
+  //         local: res[i].sector,
+  //       });
+  //     }
 
-      this.refresh.next(this.userEvents);
-    });
-  }
+  //     this.refresh.next(this.userEvents);
+  //   });
+  // }
 }

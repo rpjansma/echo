@@ -4,20 +4,23 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { environment } from '../../../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class IpcaService {
   private initialDate = '11/01/2021';
   private finalDate = '21/11/2021';
-  private API_URL = 'http://localhost:4000/economics/ipca';
+  private API_URL = environment.api;
+
   constructor(private http: HttpClient) {}
 
   getIpcaData() {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http
-      .get(this.API_URL, {
+      .get(this.API_URL + "/economics/ipca", {
         params: {
           initialDate: initialDate,
           finalDate: finalDate,
@@ -26,7 +29,9 @@ export class IpcaService {
       .pipe(
         map((res) => res),
         catchError((error) => {
-          alert('DEU RUIM NA API DO IPCA MANÉ');
+          alert(
+            'Sorry, we had a problem while collecting IPCA data. Try again later.'
+          );
           return of(null);
         })
       );

@@ -20,6 +20,7 @@ export class GraphicComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   refresh: BehaviorSubject<any> = new BehaviorSubject(null);
   ipcaEvents: any[] = [];
+  dolarEvents: any[] = [];
   userEvents: any[] = [];
   newsEvents: any[] = [];
   dateForm: FormGroup;
@@ -57,50 +58,90 @@ export class GraphicComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getData();
+    this.getIpcaData();
     this.chart.chart.update();
   }
 
-  getData() {
+  getIpcaData() {
+    this.cotacaoVenda = [];
+    this.dataCotacao = [];
     this.chartData = [];
-    /*this.dolarService.getDolarData().subscribe((data: any) => {
-      this.cotacaoVenda = data.value;
-      this.cotacaoVenda = this.cotacaoVenda.map((value) => value.cotacaoVenda);
-      this.dataCotacao = this.cotacaoVenda.map((value) =>
-        moment(value.dataHoraCotacao).format('D MMM YY')
-      );
-      this.chartData.push({
-        data: this.cotacaoVenda,
-        label: 'Valor de Venda',
-        borderColor: '#fd7e14',
-        backgroundColor: '#fd7e14',
-      });
-      this.chartLabels = this.dataCotacao;
-      this.chart.chart.update();
-    });*/
 
     this.ipcaService.getIpcaData().subscribe((data: any) => {
-      this.ipcaEvents = data.value;
+      this.ipcaEvents = data;
       this.resultadoIpca = this.ipcaEvents.map((value) => value.valor);
       this.dataCotacao = this.ipcaEvents.map((value) =>
         moment(value.data).format('D MMM YY')
       );
       this.chartData.push({
         data: this.resultadoIpca,
-        label: 'Valor de Venda',
-        borderColor: 'red',
-        backgroundColor: 'red',
+        label: 'Ipca',
+        borderColor: 'rgb(6A,82,FB)',
+        backgroundColor: 'rgb(6A,82,FB)',
       });
       this.chartLabels = this.dataCotacao;
       this.chart.chart.update();
     });
+    /*this.dolarService.getDolarData().subscribe((data: any) => {
+      this.dolarEvents = data;
+      this.cotacaoVenda = this.dolarEvents.map((value) => value.cotacaoVenda);
+      this.dataCotacao = this.dolarEvents.map((value) =>
+        moment(value.dataHoraCotacao).format('D MMM YY')
+      );
+      this.chartData.push(
+        {
+          data: this.cotacaoVenda,
+          label: 'Dolar (Venda)',
+          borderColor: 'rgb(6C, 6C, 6C)',
+          backgroundColor: 'rgb(6C, 6C, 6C)',
+        }
+      );
+      this.chartLabels = this.dataCotacao;
+      this.chart.chart.update();
+    });*/
+  }
 
+  getDolarData() {
+    this.cotacaoVenda = [];
+    this.dataCotacao = [];
+    this.chartData = [];
 
+    this.ipcaService.getIpcaData().subscribe((data: any) => {
+      this.ipcaEvents = data;
+      this.resultadoIpca = this.ipcaEvents.map((value) => value.valor);
+      this.dataCotacao = this.ipcaEvents.map((value) =>
+        moment(value.data).format('D MMM YY')
+      );
+      this.chartData.push({
+        data: this.resultadoIpca,
+        label: 'Ipca',
+        borderColor: 'rgb(6A,82,FB)',
+        backgroundColor: 'rgb(6A,82,FB)',
+      });
+      this.chartLabels = this.dataCotacao;
+      this.chart.chart.update();
+    });
+    /*this.dolarService.getDolarData().subscribe((data: any) => {
+      this.dolarEvents = data.value;
+      this.cotacaoVenda = this.dolarEvents.map((value) => value.cotacaoVenda);
+      this.dataCotacao = this.dolarEvents.map((value) =>
+        moment(value.dataHoraCotacao).format('D MMM YY')
+      );
+      this.chartData.push(
+        {
+          data: this.cotacaoVenda,
+          label: 'Dolar (Venda)',
+          borderColor: 'rgb(6C, 6C, 6C)',
+          backgroundColor: 'rgb(6C, 6C, 6C)',
+        }
+      );
+      this.chartLabels = this.dataCotacao;
+      this.chart.chart.update();
+    });*/
   }
 
   updateNews() {
     this.newsService.getNewsData().subscribe((res) => {
-
       console.log(res);
 
       let articles = res.articles;
@@ -129,7 +170,7 @@ export class GraphicComponent implements OnInit {
     const dataFinal = this.dateForm.get('dataFinal')?.value;
     this.dolarService.changeInitialDate(dataInicial);
     this.dolarService.changeFinalDate(dataFinal);
-    this.getData();
+    this.getIpcaData();
   }
 
   // fetchEventList(): void {

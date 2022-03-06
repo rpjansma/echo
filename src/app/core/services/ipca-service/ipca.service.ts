@@ -1,10 +1,8 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { DolarServiceInterface } from '../../../shared/interfaces/dolar-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -12,21 +10,19 @@ import { DolarServiceInterface } from '../../../shared/interfaces/dolar-interfac
 export class IpcaService {
   private initialDate = '11/01/2021';
   private finalDate = '21/11/2021';
-  private API_URL =
-    'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/';
+  private API_URL = 'http://localhost:4000/economics/ipca';
   constructor(private http: HttpClient) {}
 
-  getIpcaData(){
-    let initialDate = this.initialDate
-    let finalDate = this.finalDate
+  getIpcaData() {
+    let initialDate = this.initialDate;
+    let finalDate = this.finalDate;
     return this.http
-      .get(
-        this.API_URL +
-          "dados?formato=json&dataInicial=" +
-          initialDate +
-          "&dataFinal=" +
-          finalDate
-      )
+      .get(this.API_URL, {
+        params: {
+          initialDate: initialDate,
+          finalDate: finalDate,
+        },
+      })
       .pipe(
         map((res) => res),
         catchError((error) => {

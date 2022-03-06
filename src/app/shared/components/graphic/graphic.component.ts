@@ -6,10 +6,10 @@ import { UserService } from 'src/app/core/services/user-service/user.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { DolarService } from '../../../core/services/dolar-service/dolar.service';
 import { EventService } from '../../../core/services/event-service/event.service';
 import { IpcaService } from '../../../core/services/ipca-service/ipca.service';
 import { NewsService } from '../../../core/services/news-service/news.service';
+import { PtaxService } from '../../../core/services/ptax-service/ptax.service';
 
 @Component({
   selector: 'echo-graphic',
@@ -44,7 +44,7 @@ export class GraphicComponent implements OnInit {
   event$ = this.eventService.getUserEvents(this.id);
 
   constructor(
-    private dolarService: DolarService,
+    private ptaxService: PtaxService,
     private ipcaService: IpcaService,
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -168,8 +168,8 @@ export class GraphicComponent implements OnInit {
   updateApiDate() {
     const dataInicial = this.dateForm.get('dataInicial')?.value;
     const dataFinal = this.dateForm.get('dataFinal')?.value;
-    this.dolarService.changeInitialDate(dataInicial);
-    this.dolarService.changeFinalDate(dataFinal);
+    this.ptaxService.changeInitialDate(dataInicial);
+    this.ptaxService.changeFinalDate(dataFinal);
     this.getIpcaData();
   }
 

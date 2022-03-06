@@ -9,9 +9,9 @@ import { DolarServiceInterface } from '../../../shared/interfaces/dolar-interfac
 @Injectable({
   providedIn: 'root',
 })
-export class DolarService {
-  private initialDate = '11-21-2021';
-  private finalDate = '11-01-2021';
+export class PtaxService {
+  private initialDate = '11-01-2021';
+  private finalDate = '11-21-2021';
   private API_URL =
     'https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata';
   constructor(private http: HttpClient) {}
@@ -42,10 +42,10 @@ export class DolarService {
   }
 
   changeInitialDate(date: string) {
-    this.finalDate = date;
+    this.initialDate = date;
   }
 
   changeFinalDate(date: string) {
-    this.initialDate = date;
+    this.finalDate = date;
   }
 }

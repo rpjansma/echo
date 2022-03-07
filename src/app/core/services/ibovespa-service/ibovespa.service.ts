@@ -9,7 +9,7 @@ import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class PibService {
+export class IbovespaService {
   private initialDate = '11/01/2021';
   private finalDate = '21/11/2021';
   private API_URL = environment.api;
@@ -20,7 +20,7 @@ export class PibService {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http
-      .get(this.API_URL + "/economics/pib", {
+      .get(this.API_URL + "/economics/ibovespa", {
         params: {
           initialDate: initialDate,
           finalDate: finalDate,
@@ -30,7 +30,7 @@ export class PibService {
         map((res) => res),
         catchError((error) => {
           alert(
-            'Sorry, we had a problem while collecting PIB data. Try again later.'
+            'Sorry, we had a problem while collecting IBOVESPA data. Try again later.'
           );
           return of(null);
         })

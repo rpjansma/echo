@@ -20,7 +20,7 @@ export class PibService {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http
-      .get(this.API_URL + "/economics/pib", {
+      .get(this.API_URL + '/economics/pib', {
         params: {
           initialDate: initialDate,
           finalDate: finalDate,

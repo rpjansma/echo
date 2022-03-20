@@ -74,7 +74,6 @@
             </td>
           </tr>
 
-          <!-- Edit Modal HTML -->
           <ng-template
             #editEventModal
             let-close="close"
@@ -213,38 +212,27 @@
           </ng-template>
         </tbody>
       </table>
-
-      <!--
-				<div class="clearfix p-3">
-					<div class="hint-text">Mostrando <b>5</b> de <b>25</b> eventos</div>
-					<ul class="pagination">
-						<li class="page-item"><a href="#" class="page-link">Anterior</a></li>
-						<li class="page-item"><a href="#" class="page-link">1</a></li>
-						<li class="page-item"><a href="#" class="page-link">2</a></li>
-						<li class="page-item active"><a href="#" class="page-link">3</a></li>
-						<li class="page-item"><a href="#" class="page-link">4</a></li>
-						<li class="page-item"><a href="#" class="page-link">5</a></li>
-						<li class="page-item"><a href="#" class="page-link">Próximo</a></li>
-					</ul>
-				</div>
-				--></div>
+    </div>
   </div>
 
-  <div class="">
-    <div class="p-3">
-      <button
-        type="button"
-        class="btn btn-outline-success m-2 p-3"
-        data-bs-toggle="modal"
+  <div class="row" [formGroup]="eventForm">
+    <div class="p-3" *ngFor="let api of apis">
+      <label
+        class="radio-inline"
+        for="success-outlined"
       >
-        <i class="bi bi-cash-coin"></i> <span class="l-3"> Dólar</span>
-      </button>
+        <input
+          type="radio"
+          name="options-outlined"
+          [value]="api.id"
+          formControlName="api"
+        />{{api.name}}</label
+      >
     </div>
   </div>
 
   <echo-graphic id="graph" class="container"></echo-graphic>
 
-  <!-- Edit Modal HTML -->
   <ng-template #modalEvent let-close="close" class="modal fade" role="dialog">
     <div #modalEventContent class="modal-header col-lg-12">
       <h4 class="modal-title">Novo evento</h4>

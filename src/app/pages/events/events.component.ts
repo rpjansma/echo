@@ -16,16 +16,17 @@ import { EventService } from '../../core/services/event-service/event.service';
 })
 export class EventsComponent implements OnInit, OnChanges {
   eventForm: FormGroup;
+  apiForm: FormGroup;
   loading: boolean = false;
   refresh: BehaviorSubject<any> = new BehaviorSubject(0);
   id = this.userService.getUserId();
   event$ = this.eventService.getUserEvents(this.id);
   events = [];
-  selected: string = "Nacional";
+  apis = [];
 
-  allLocals = ["Nacional", "Internacional"]
+  selected: string = 'Nacional';
 
-
+  allLocals = ['Nacional', 'Internacional'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,6 +41,7 @@ export class EventsComponent implements OnInit, OnChanges {
       sector: ['', Validators.required],
       local: [null],
     });
+    this.apiForm = this.formBuilder.group({});
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.eventForm.updateValueAndValidity.call(
@@ -48,16 +50,15 @@ export class EventsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log(this.events)
-    this.fetchEventList()
-    console.log(this.events)
+    this.apis = this.getApis();
+    this.fetchEventList();
   }
 
   selectOption(e) {
-    console.log(e.value)
+    console.log(e.value);
     this.local.setValue(e.target.value, {
-      onlySelf: true
-    })
+      onlySelf: true,
+    });
   }
 
   get local() {
@@ -75,7 +76,7 @@ export class EventsComponent implements OnInit, OnChanges {
           start: new Date(res[i].start),
           end: new Date(res[i].end),
           sector: res[i].sector,
-          local: res[i].sector
+          local: res[i].sector,
         });
       }
       this.refresh.next(this.events);
@@ -108,28 +109,29 @@ export class EventsComponent implements OnInit, OnChanges {
 
   createEvent(user, title, start, end, sector, local) {
     this.loading = true;
-    this.eventService.createEvent(user, title, start, end, sector, local).subscribe(
-      () => {
-        this.loading = false;
-        this.fetchEventList();
-        this.modal.dismissAll();
-      },
-      () => {}
-    );
+    this.eventService
+      .createEvent(user, title, start, end, sector, local)
+      .subscribe(
+        () => {
+          this.loading = false;
+          this.fetchEventList();
+          this.modal.dismissAll();
+        },
+        () => {}
+      );
     return;
   }
 
   updateEvent(id, title, start, end, sector, local) {
     this.loading = true;
-    this.eventService.updateEvent(id, title, start, end, sector, local).subscribe(
-      () => {
+    this.eventService
+      .updateEvent(id, title, start, end, sector, local)
+      .subscribe(() => {
         this.loading = false;
         this.fetchEventList();
 
         this.modal.dismissAll();
-      },
-      () => {}
-    );
+      });
     return;
   }
 
@@ -142,16 +144,23 @@ export class EventsComponent implements OnInit, OnChanges {
       },
       () => {}
     );
-    this.refresh.next(this.event$)
-    this.modal.open(content)
-
+    this.refresh.next(this.event$);
+    this.modal.open(content);
   }
 
   isRequiredAndTouched(control: string) {
     return (
-      !this.eventForm.get(control).valid &&
-      this.eventForm.get(control).touched
+      !this.eventForm.get(control).valid && this.eventForm.get(control).touched
     );
+  }
+
+  getApis() {
+    return [
+      { id: 'cdi', name: 'CDI' },
+      { id: 'pib', name: 'PIB' },
+      { id: 'ptax', name: 'Dólar' },
+      { id: 'ipca', name: 'IPCA' },
+    ];
   }
 
   openModal(modal) {

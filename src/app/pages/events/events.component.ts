@@ -16,6 +16,7 @@ import { EventService } from '../../core/services/event-service/event.service';
 })
 export class EventsComponent implements OnInit, OnChanges {
   eventForm: FormGroup;
+  form: FormGroup;
   apiForm: FormGroup;
   loading: boolean = false;
   refresh: BehaviorSubject<any> = new BehaviorSubject(0);
@@ -42,7 +43,11 @@ export class EventsComponent implements OnInit, OnChanges {
       local: [null],
     });
     this.apiForm = this.formBuilder.group({});
+    this.form = this.formBuilder.group({
+      apiService: ['pib'],
+    });
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.eventForm.updateValueAndValidity.call(
       switchMap(() => this.eventService.getAllEvents())
@@ -161,6 +166,10 @@ export class EventsComponent implements OnInit, OnChanges {
       { id: 'ptax', name: 'Dólar' },
       { id: 'ipca', name: 'IPCA' },
     ];
+  }
+
+  process() {
+    console.log('Funcionou');
   }
 
   openModal(modal) {

@@ -216,19 +216,17 @@
   </div>
 
   <div class="row" [formGroup]="eventForm">
-    <div class="p-3" *ngFor="let api of apis">
-      <label
-        class="radio-inline"
-        for="success-outlined"
-      >
+    <form [formGroup]="form" (ngSubmit)="process()">
+      <label class="control-label col-md-4" *ngFor="let api of apis">
         <input
           type="radio"
-          name="options-outlined"
           [value]="api.id"
-          formControlName="api"
-        />{{api.name}}</label
-      >
-    </div>
+          (change)="process()"
+          formControlName="apiService"
+        />
+        {{ api.name }}
+      </label>
+    </form>
   </div>
 
   <echo-graphic id="graph" class="container"></echo-graphic>

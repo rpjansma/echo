@@ -16,7 +16,7 @@ export class PtaxService {
 
   constructor(private http: HttpClient) {}
 
-  getIpcaData() {
+  getDolarData() {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http

@@ -215,20 +215,6 @@
     </div>
   </div>
 
-  <div class="row" [formGroup]="eventForm">
-    <form [formGroup]="form" (ngSubmit)="process()">
-      <label class="control-label col-md-4" *ngFor="let api of apis">
-        <input
-          type="radio"
-          [value]="api.id"
-          (change)="process()"
-          formControlName="apiService"
-        />
-        {{ api.name }}
-      </label>
-    </form>
-  </div>
-
   <echo-graphic id="graph" class="container"></echo-graphic>
 
   <ng-template #modalEvent let-close="close" class="modal fade" role="dialog">

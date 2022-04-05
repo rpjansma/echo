@@ -1,29 +1,56 @@
-<div class="">
-  <canvas id="myChart"
-  width="150" height="40"
-  baseChart
-            [datasets]="chartData"
-            [labels]="chartLabels"
-            [options]="chartOptions"
-            [legend]="chartLegend"
-            [chartType]="chartType"></canvas>
+<div class="d-flex align-items-center justify-content-around">
+
+  <form class="ms-3" [formGroup]="eventForm" (ngSubmit)="process()">
+    <label class="btn btn-secondary control-label m-3" *ngFor="let api of apis">
+      <input
+        class="btn-check"
+        type="radio"
+        [value]="api.id"
+        (change)="process()"
+        formControlName="apiService"
+      />
+      {{ api.name }}
+    </label>
+  </form>
+
+  <form
+    [formGroup]="dateForm"
+    class="form"
+    (submit)="getIpcaData()"
+  >
+    <div class="form-group">
+      <label>Data Inicial</label>
+      <input
+        formControlName="dataInicial"
+        class="form-control"
+        placeholder="Data inicial (formato: MM-DD-YYYY)"
+        (change)="updateApiDate()"
+      />
+    </div>
+    <div class="form-group">
+      <label>Data Final</label>
+      <input
+        formControlName="dataFinal"
+        class="form-control"
+        placeholder="Data final (formato: MM-DD-YYYY)"
+        (change)="updateApiDate()"
+      />
+    </div>
+  </form>
 </div>
-<form [formGroup]="dateForm" class="form mt-4" (submit)="getIpcaData()">
-  <div class="form-group">
-    <label>Data Inicial</label>
-    <input
-      formControlName="dataInicial"
-      class="form-control"
-      placeholder="Data inicial (formato: MM-DD-YYYY)"
-    />
-  </div>
-  <div class="form-group">
-    <label>Data Final</label>
-    <input
-      formControlName="dataFinal"
-      class="form-control"
-      placeholder="Data final (formato: MM-DD-YYYY)"
-    />
-  </div>
-</form>
-<button (click)="updateApiDate()">Atualizar Dados</button>
+
+<div class="">
+  <canvas
+    id="myChart"
+    width="150"
+    height="40"
+    baseChart
+    [datasets]="chartData"
+    [labels]="chartLabels"
+    [options]="chartOptions"
+    [legend]="chartLegend"
+    [chartType]="chartType"
+  ></canvas>
+</div>
+
+<form></form>

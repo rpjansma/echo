@@ -1,15 +1,13 @@
 import * as moment from 'moment';
 import { BaseChartDirective } from 'ng2-charts';
 import { BehaviorSubject } from 'rxjs';
+import { EconomicsService } from 'src/app/core/services/economics-service/economics.service';
 import { UserService } from 'src/app/core/services/user-service/user.service';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EventService } from '../../../core/services/event-service/event.service';
-import { IpcaService } from '../../../core/services/ipca-service/ipca.service';
-import { NewsService } from '../../../core/services/news-service/news.service';
-import { PtaxService } from '../../../core/services/ptax-service/ptax.service';
 
 @Component({
   selector: 'echo-graphic',
@@ -19,18 +17,20 @@ import { PtaxService } from '../../../core/services/ptax-service/ptax.service';
 export class GraphicComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   refresh: BehaviorSubject<any> = new BehaviorSubject(null);
-  ipcaEvents: any[] = [];
-  dolarEvents: any[] = [];
-  userEvents: any[] = [];
-  newsEvents: any[] = [];
   dateForm: FormGroup;
-  cotacaoVenda = [];
-  resultadoIpca = [];
-  eventDates: any[] = [];
+  eventForm: FormGroup;
+  apiEvents: any[] = [];
+  userEvents: any[] = [];
+  valuesToInputInChartData = [];
+  eventsDatesToChart: any[] = [];
   events: any[] = [];
-  noticiaTitle = [];
-  noticiaData = [];
-  noticiaEx = ['potato', 'batata'];
+  apis: any[] = [
+    { id: 'cdi', name: 'CDI' },
+    { id: 'pib', name: 'PIB' },
+    { id: 'ptax', name: 'Dólar' },
+    { id: 'ipca', name: 'IPCA' },
+    { id: 'ibovespa', name: 'Ibovespa' },
+  ];
 
   public chartOptions = {
     scaleShowVerticalLines: false,
@@ -45,48 +45,72 @@ export class GraphicComponent implements OnInit {
   event$ = this.eventService.getUserEvents(this.id);
 
   constructor(
-    private ptaxService: PtaxService,
-    private ipcaService: IpcaService,
+    private economicsService: EconomicsService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private eventService: EventService,
-    private newsService: NewsService
+    private eventService: EventService
   ) {
     this.dateForm = this.formBuilder.group({
       dataInicial: ['01-01-2020', [Validators.required]],
       dataFinal: ['11-22-2020', [Validators.required]],
+    });
+    this.eventForm = this.formBuilder.group({
+      apiService: ['ipca'],
     });
   }
 
   ngOnInit(): void {
     this.process();
     this.fetchEventList();
-    console.log(this.events);
+    console.log(this.apis);
   }
 
   process() {
-    this.getIpcaData();
+    this.selectApiDataSource(this.eventForm.get('apiService').value);
+    console.log(this.eventForm.get('apiService').value);
+    console.log('processou');
     this.chart.chart.update();
   }
 
+  selectApiDataSource(api: string) {
+    switch (api) {
+      case 'ipca':
+        this.getIpcaData();
+        break;
+      case 'ptax':
+        this.getDolarData();
+        break;
+      case 'ibovespa':
+        this.getIbovespaData();
+        break;
+      case 'pib':
+        this.getPibData();
+        break;
+      case 'cdi':
+        this.getCdiData();
+    }
+  }
+
   getIpcaData() {
-    this.cotacaoVenda = [];
-    this.eventDates = [];
+    this.valuesToInputInChartData = [];
+    this.eventsDatesToChart = [];
     this.chartData = [];
 
-    this.ipcaService.getIpcaData().subscribe((data: any) => {
-      this.ipcaEvents = data;
-      this.resultadoIpca = this.ipcaEvents.map((value) => value.valor);
-      //this.eventDates = this.ipcaEvents.map((value) =>
-      //  moment(value.data).format('D MMM YY')
-      //);
+    this.economicsService.getIpcaData().subscribe((data: any) => {
+      this.apiEvents = data;
+      this.valuesToInputInChartData = this.apiEvents.map(
+        (value) => value.valor
+      );
+      this.eventsDatesToChart = this.apiEvents.map((value) =>
+        moment(value.data).format('D MMM YY')
+      );
       this.chartData.push({
-        data: this.resultadoIpca,
+        data: this.valuesToInputInChartData,
         label: 'Ipca',
         borderColor: 'rgb(6A,82,FB)',
         backgroundColor: 'rgb(6A,82,FB)',
       });
-      this.chartLabels = this.eventDates;
+      this.chartLabels = this.eventsDatesToChart;
       this.chart.chart.update();
     });
 
@@ -94,77 +118,129 @@ export class GraphicComponent implements OnInit {
 
     this.eventService.getUserEvents(id).subscribe((data: any) => {
       this.userEvents = data;
-      console.log(this.userEvents.map((value) => value.title))
       this.chartData.push({
         data: this.userEvents.map((value) => value.title),
         label: 'Eventos Usuário',
         borderColor: 'rgb(13,8A,BB)',
         backgroundColor: 'rgb(13,8A,BB)',
       });
-      this.eventDates = this.userEvents.map((value) =>
+      this.eventsDatesToChart = this.userEvents.map((value) =>
         moment(value.start).format('D MMM YY')
       );
-      this.eventDates.push(
+      this.eventsDatesToChart.push(
         this.userEvents.map((value) => moment(value.end).format('D MMM YY'))
       );
-      this.chartLabels = this.eventDates;
+      this.chartLabels = this.eventsDatesToChart;
       this.chart.chart.update();
     });
   }
 
   getDolarData() {
-    this.cotacaoVenda = [];
-    this.eventDates = [];
+    this.valuesToInputInChartData = [];
+    this.eventsDatesToChart = [];
     this.chartData = [];
 
-    this.ptaxService.getDolarData().subscribe((data: any) => {
-      this.dolarEvents = data.value;
-      this.cotacaoVenda = this.dolarEvents.map((value) => value.cotacaoVenda);
-      this.eventDates = this.dolarEvents.map((value) =>
+    this.economicsService.getPtaxData().subscribe((data: any) => {
+      this.apiEvents = data.value;
+      this.valuesToInputInChartData = this.apiEvents.map(
+        (value) => value.cotacaoVenda
+      );
+      this.eventsDatesToChart = this.apiEvents.map((value) =>
         moment(value.dataHoraCotacao).format('D MMM YY')
       );
       this.chartData.push({
-        data: this.cotacaoVenda,
+        data: this.valuesToInputInChartData,
         label: 'Dolar (Venda)',
         borderColor: 'rgb(6C, 6C, 6C)',
         backgroundColor: 'rgb(6C, 6C, 6C)',
       });
-      this.chartLabels = this.eventDates;
+      this.chartLabels = this.eventsDatesToChart;
       this.chart.chart.update();
     });
   }
 
-  updateNews() {
-    this.newsService.getNewsData().subscribe((res) => {
-      console.log(res);
+  getIbovespaData() {
+    this.valuesToInputInChartData = [];
+    this.eventsDatesToChart = [];
+    this.chartData = [];
 
-      let articles = res.articles;
-
-      for (let i = 0; i < articles.length; i++) {
-        this.newsEvents.push({
-          title: articles[i].title,
-          date: new Date(articles[i].publishedAt),
-        });
-      }
-      this.noticiaTitle = this.newsEvents.map((value) => value.title);
-      this.noticiaData = this.newsEvents.map((value) => value.date);
+    this.economicsService.getIbovespaData().subscribe((data: any) => {
+      this.apiEvents = data;
+      this.valuesToInputInChartData = this.apiEvents.map(
+        (value) => value.valor
+      );
+      this.eventsDatesToChart = this.apiEvents.map((value) =>
+        moment(value.data).format('D MMM YY')
+      );
       this.chartData.push({
-        data: this.cotacaoVenda,
-        label: 'Noticia',
+        data: this.valuesToInputInChartData,
+        label: 'Ibovespa',
         borderColor: 'rgb(6C, 6C, 6C)',
         backgroundColor: 'rgb(6C, 6C, 6C)',
-        labels: this.noticiaData,
       });
+      this.chartLabels = this.eventsDatesToChart;
+      this.chart.chart.update();
     });
-    this.chart.chart.update();
+  }
+
+  getPibData() {
+    this.valuesToInputInChartData = [];
+    this.eventsDatesToChart = [];
+    this.chartData = [];
+
+    this.economicsService.getPibData().subscribe((data: any) => {
+      this.apiEvents = data;
+      this.valuesToInputInChartData = this.apiEvents.map(
+        (value) => value.valor
+      );
+      this.eventsDatesToChart = this.apiEvents.map((value) =>
+        moment(value.data).format('D MMM YY')
+      );
+      this.chartData.push({
+        data: this.valuesToInputInChartData,
+        label: 'PIB',
+        borderColor: 'rgb(6C, 6C, 6C)',
+        backgroundColor: 'rgb(6C, 6C, 6C)',
+      });
+      this.chartLabels = this.eventsDatesToChart;
+      this.chart.chart.update();
+    });
+  }
+
+  getCdiData() {
+    this.valuesToInputInChartData = [];
+    this.eventsDatesToChart = [];
+    this.chartData = [];
+
+    this.economicsService.getCdiData().subscribe((data: any) => {
+      this.apiEvents = data;
+      this.valuesToInputInChartData = this.apiEvents.map(
+        (value) => value.valor
+      );
+      this.eventsDatesToChart = this.apiEvents.map((value) =>
+        moment(value.data).format('D MMM YY')
+      );
+      this.chartData.push({
+        data: this.valuesToInputInChartData,
+        label: 'CDI',
+        borderColor: 'rgb(6C, 6C, 6C)',
+        backgroundColor: 'rgb(6C, 6C, 6C)',
+      });
+      this.chartLabels = this.eventsDatesToChart;
+      this.chart.chart.update();
+    });
   }
 
   updateApiDate() {
     const dataInicial = this.dateForm.get('dataInicial')?.value;
     const dataFinal = this.dateForm.get('dataFinal')?.value;
-    this.ptaxService.changeInitialDate(dataInicial);
-    this.ptaxService.changeFinalDate(dataFinal);
-    this.getIpcaData();
+    if (dataInicial > dataFinal) {
+      alert('A data inicial deve ser maior que a data final!');
+    } else {
+      this.economicsService.changeInitialDate(dataInicial);
+      this.economicsService.changeFinalDate(dataFinal);
+      this.process();
+    }
   }
 
   fetchEventList(): void {

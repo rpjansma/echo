@@ -71,9 +71,9 @@ export class EventsComponent implements OnInit, OnChanges {
   }
 
   fetchEventList(): void {
-    const id = this.userService.getUserId();
+    const userId = this.userService.getUserId();
     this.events = [];
-    this.eventService.getUserEvents(id).subscribe((res) => {
+    this.eventService.getUserEvents(userId).subscribe((res) => {
       for (let i = 0; i < res.length; i++) {
         this.events.push({
           _id: res[i]._id,
@@ -153,6 +153,18 @@ export class EventsComponent implements OnInit, OnChanges {
     this.modal.open(content);
   }
 
+  getEventById(eventId: string) {
+    const userId = this.userService.getUserId();
+
+    this.loading = true;
+    this.eventService
+      .getEventById(eventId, userId)
+      .subscribe(() => {
+        this.loading = false;
+      });
+    return;
+  }
+
   isRequiredAndTouched(control: string) {
     return (
       !this.eventForm.get(control).valid && this.eventForm.get(control).touched
@@ -169,7 +181,6 @@ export class EventsComponent implements OnInit, OnChanges {
   }
 
   process() {
-    console.log('Funcionou');
   }
 
   openModal(modal) {

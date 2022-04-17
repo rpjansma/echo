@@ -1,191 +1,88 @@
 <body class="container col-md-12 vh-100">
+  <div class="container p-3">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2>Histórico de <b>consultas</b></h2>
+          </div>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-dark">
+          <tr class="text-center">
+            <th>Data da consulta</th>
+            <th>Nome do Evento(s)</th>
+            <th>Início</th>
+            <th>Fim</th>
+            <th>Setor(es)</th>
+            <th>Local(is)</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let event of events">
+          <tr class="text-center">
+            <td class="card-title fw-bold">{{ event.consultationDate | date:'short' }}</td>
+            <td class="card-text">{{ event.event.title | uppercase }}</td>
+            <td class="card-text">{{ event.event.start | date }}</td>
+            <td class="card-text">{{ event.event.end | date }}</td>
+            <td class="card-text">{{ event.event.sector | uppercase }}</td>
+            <td class="card-text">{{ event.event.local | uppercase }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn pr-1 mr-1"
+                data-bs-toggle="modal"
+                data-bs-target="#editEventModal"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+              <button
+                type="button"
+                class="btn pl-1 ml-1"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteEventModal"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-
-
-	<div class="container p-3">
-		<div class="table-wrapper">
-			<div class="table-title">
-				<div class="row">
-					<div class="col-sm-6">
-						<h2>Histórico de <b>consultas</b></h2>
-					</div>
-					<!--
-						<div class="col-sm-6 p-3 text-center">
-							<button type="button" class="btn btn-danger m-2 p-3" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-dash-circle"></i> <span>
-									Deletar</span></button>
-						</div>
-						-->
-				</div>
-			</div>
-			<table class="table table-bordered table-striped table-hover">
-				<thead class="thead-dark">
-					<tr class="text-center">
-
-						<th>Data da consulta</th>
-						<th>Nome do Evento(s)</th>
-						<th>Início</th>
-						<th>Fim</th>
-						<th>Setor(es)</th>
-						<th>Local(is)</th>
-						<th>Ações</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-					<tr class="text-center">
-						<td>10/11/2021</td>
-						<td>Greve dos caminhoneiros, PEC dos precatórios</td>
-						<td>01/12/2017</td>
-						<td>07/01/2018</td>
-						<td>Transporte</td>
-						<td>Nacional</td>
-						<td>
-							<button type="button" class="btn pr-1 mr-1" data-bs-toggle="modal"
-								data-bs-target="#editEventModal"><i class="bi bi-eye"></i></button>
-							<button type="button" class="btn pl-1 ml-1" data-bs-toggle="modal"
-								data-bs-target="#deleteEventModal"><i class="bi bi-trash"></i></button>
-						</td>
-					</tr>
-
-				</tbody>
-			</table>
-
-			<!--
-				<div class="clearfix p-3">
-					<div class="hint-text">Mostrando <b>5</b> de <b>25</b> eventos</div>
-					<ul class="pagination">
-						<li class="page-item"><a href="#" class="page-link">Anterior</a></li>
-						<li class="page-item"><a href="#" class="page-link">1</a></li>
-						<li class="page-item"><a href="#" class="page-link">2</a></li>
-						<li class="page-item active"><a href="#" class="page-link">3</a></li>
-						<li class="page-item"><a href="#" class="page-link">4</a></li>
-						<li class="page-item"><a href="#" class="page-link">5</a></li>
-						<li class="page-item"><a href="#" class="page-link">Próximo</a></li>
-					</ul>
-				</div>
-				-->
-		</div>
-	</div>
-
-
-	<!-- Delete Modal HTML -->
-	<div id="deleteEventModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form>
-					<div class="modal-header">
-						<h4 class="modal-title">Deletar Evento</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="Close"></button>
-					</div>
-					<div class="d-flex flex-column modal-body">
-						<p>Você tem certeza que deseja deletar esse evento?</p>
-						<p class="text-warning"><small>Essa ação não poderá ser desfeita</small></p>
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-bs-dismiss="modal" value="Cancelar">
-						<input type="submit" class="btn btn-danger" value="Deletar">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
+  <!-- Delete Modal HTML -->
+  <div id="deleteEventModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <h4 class="modal-title">Deletar Evento</h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-hidden="Close"
+            ></button>
+          </div>
+          <div class="d-flex flex-column modal-body">
+            <p>Você tem certeza que deseja deletar esse evento?</p>
+            <p class="text-warning">
+              <small>Essa ação não poderá ser desfeita</small>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <input
+              type="button"
+              class="btn btn-default"
+              data-bs-dismiss="modal"
+              value="Cancelar"
+            />
+            <input type="submit" class="btn btn-danger" value="Deletar" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>

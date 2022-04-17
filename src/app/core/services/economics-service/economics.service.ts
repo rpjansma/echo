@@ -10,9 +10,24 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class EconomicsService {
-  private initialDate = '11/01/2021';
-  private finalDate = '21/11/2021';
   private API_URL = environment.api;
+
+  private today = new Date();
+  private priorDate = new Date(new Date().setDate(this.today.getDate() - 30));
+
+  private initialDate =
+    this.priorDate.getDate() +
+    '/' +
+    (this.priorDate.getMonth() + 1) +
+    '/' +
+    this.priorDate.getFullYear();
+
+  private finalDate =
+    this.today.getDate() +
+    '/' +
+    (this.today.getMonth() + 1) +
+    '/' +
+    this.today.getFullYear();
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +35,7 @@ export class EconomicsService {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http
-      .get(this.API_URL + "/economics/ipca", {
+      .get(this.API_URL + '/economics/ipca', {
         params: {
           initialDate: initialDate,
           finalDate: finalDate,
@@ -41,7 +56,7 @@ export class EconomicsService {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http
-      .get(this.API_URL + "/economics/ibovespa", {
+      .get(this.API_URL + '/economics/ibovespa', {
         params: {
           initialDate: initialDate,
           finalDate: finalDate,
@@ -62,7 +77,7 @@ export class EconomicsService {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http
-      .get(this.API_URL + "/economics/cdi", {
+      .get(this.API_URL + '/economics/cdi', {
         params: {
           initialDate: initialDate,
           finalDate: finalDate,
@@ -104,7 +119,7 @@ export class EconomicsService {
     let initialDate = this.initialDate;
     let finalDate = this.finalDate;
     return this.http
-      .get(this.API_URL + '/economics/pib', {
+      .get(this.API_URL + '/economics/ptax', {
         params: {
           initialDate: initialDate,
           finalDate: finalDate,
@@ -114,7 +129,7 @@ export class EconomicsService {
         map((res) => res),
         catchError((error) => {
           alert(
-            'Sorry, we had a problem while collecting PIB data. Try again later.'
+            'Sorry, we had a problem while collecting PTAX data. Try again later.'
           );
           return of(null);
         })

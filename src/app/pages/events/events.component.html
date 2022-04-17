@@ -40,6 +40,7 @@
       <table class="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
           <tr class="text-center">
+            <th>Analisar Evento</th>
             <th>Nome do Evento</th>
             <th>Início</th>
             <th>Fim</th>
@@ -50,6 +51,15 @@
         </thead>
         <tbody *ngFor="let event of events">
           <tr class="text-center">
+            <td class="card-title">
+              <button
+              type="button"
+              class="btn pr-2"
+              (click)="getEventById(event._id)"
+            >
+              <i class="bi bi-binoculars-fill"></i>
+            </button>
+            </td>
             <td class="card-title">{{ event.title | uppercase }}</td>
             <td class="card-text">{{ event.start | date }}</td>
             <td class="card-text">{{ event.end | date }}</td>
@@ -64,6 +74,7 @@
               >
                 <i class="bi bi-pencil"></i>
               </button>
+
               <button
                 type="button"
                 class="btn pl-1"
@@ -311,56 +322,6 @@
     </div>
   </ng-template>
 
-  <!--
-  <div id="editEventModal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form>
-          <div class="modal-header">
-            <h4 class="modal-title">Editar Evento</h4>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label>Nome do Evento</label>
-              <input type="text" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label>Início</label>
-              <input type="date" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label>Fim</label>
-              <input type="date" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label>Setor</label>
-              <textarea class="form-control" required></textarea>
-            </div>
-            <div class="form-group">
-              <label>Local</label>
-              <input type="text" class="form-control" required />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <input
-              type="button"
-              class="btn btn-default"
-              data-bs-dismiss="modal"
-              value="Cancelar"
-            />
-            <input type="submit" class="btn btn-success" value="Atualizar" />
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
--->
   <!-- Delete Modal HTML -->
 
   <ng-template
@@ -388,40 +349,4 @@
       </button>
     </div>
   </ng-template>
-
-  <!--
-  <ng-template #deleteEventModal class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form>
-          <div class="modal-header">
-            <h4 class="modal-title">Deletar Evento</h4>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="Close"
-            ></button>
-          </div>
-          <div class="d-flex flex-column modal-body">
-            <p>Você tem certeza que deseja deletar esse evento?</p>
-            <p class="text-warning">
-              <small>Essa ação não poderá ser desfeita</small>
-            </p>
-          </div>
-          <div class="modal-footer">
-            <input
-              type="button"
-              class="btn btn-default"
-              data-bs-dismiss="modal"
-              value="Cancelar"
-            />
-            <input type="submit" class="btn btn-danger" value="Deletar"/>
-          </div>
-        </form>
-      </div>
-    </div>
-  </ng-template>
-
-  -->
 </body>

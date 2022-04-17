@@ -1,13 +1,13 @@
 import { of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../../../environments/environment';
 import { Event } from '../../../shared/interfaces/event-interface';
 
-const API_URL = environment.api
+const API_URL = environment.api;
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class EventService {
 
   getUserEvents(id: string) {
     return this.http
-      .get<Event[]>(API_URL + '/events/' + id, { observe: 'response' })
+      .get<Event[]>(API_URL + '/events/user/' + id, { observe: 'response' })
       .pipe(
         map((res) => {
           return res.body;
@@ -43,7 +43,47 @@ export class EventService {
       );
   }
 
-  createEvent(user: string, title: string, start: Date, end: Date, sector: String, local: string) {
+  getEventById(eventId: string, userId: string) {
+    return this.http
+      .get<Event[]>(API_URL + '/events/event/' + eventId, {
+        headers: new HttpHeaders().set('userId', userId),
+        observe: 'response',
+      })
+      .pipe(
+        map((res) => {
+          return res.body;
+        }),
+        catchError((error) => {
+          alert('Sorry, we had an error. Can you try again?');
+          return of(null);
+        })
+      );
+  }
+
+  getUserEventLogs(userId: string) {
+    return this.http
+      .get<Event[]>(API_URL + '/events/event/user/' + userId, {
+        observe: 'response',
+      })
+      .pipe(
+        map((res) => {
+          return res.body;
+        }),
+        catchError((error) => {
+          alert('Sorry, we had an error. Can you try again?');
+          return of(null);
+        })
+      );
+  }
+
+  createEvent(
+    user: string,
+    title: string,
+    start: Date,
+    end: Date,
+    sector: String,
+    local: string
+  ) {
     return this.http
       .post(
         API_URL + '/events',
@@ -62,7 +102,14 @@ export class EventService {
       );
   }
 
-  updateEvent(id: any, title: string, start: Date, end: Date, sector: string, local: string) {
+  updateEvent(
+    id: any,
+    title: string,
+    start: Date,
+    end: Date,
+    sector: string,
+    local: string
+  ) {
     return this.http
       .put(
         API_URL + '/events/' + id,

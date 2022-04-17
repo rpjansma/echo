@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'https://rest-events-api.herokuapp.com',
+  api: 'http://localhost:4000',
 };
 
 

@@ -1,4 +1,9 @@
+import { BehaviorSubject } from 'rxjs';
+
 import { Component, OnInit } from '@angular/core';
+
+import { EventService } from '../../core/services/event-service/event.service';
+import { UserService } from '../../core/services/user-service/user.service';
 
 @Component({
   selector: 'app-historic',
@@ -7,9 +12,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoricComponent implements OnInit {
 
-  constructor() { }
+  events = [];
+  refresh: BehaviorSubject<any> = new BehaviorSubject(0);
+
+  constructor(
+    private eventService: EventService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.process()
+  }
+
+  process(): void {
+    this.fetchEventLogList();
+    console.log(this.events)
+  }
+
+  fetchEventLogList(): void {
+    const userId = this.userService.getUserId();
+    this.events = [];
+    this.eventService.getUserEventLogs(userId).subscribe((res) => {
+      for (let i = 0; i < res.length; i++) {
+        this.events.push({
+          _id: res[i]._id,
+          event: res[i].event,
+          consultationDate: new Date(res[i].consultationDate),
+        });
+      }
+      this.refresh.next(this.events);
+    });
   }
 
 }

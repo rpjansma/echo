@@ -51,24 +51,22 @@ export class GraphicComponent implements OnInit {
     private eventService: EventService
   ) {
     this.dateForm = this.formBuilder.group({
-      dataInicial: ['01-01-2020', [Validators.required]],
-      dataFinal: ['11-22-2020', [Validators.required]],
+      dataInicial: [null, [Validators.required]],
+      dataFinal: [null, [Validators.required]],
     });
     this.eventForm = this.formBuilder.group({
-      apiService: ['ipca'],
+      apiService: ['ptax'],
     });
   }
 
   ngOnInit(): void {
     this.process();
     this.fetchEventList();
-    console.log(this.apis);
   }
 
   process() {
     this.selectApiDataSource(this.eventForm.get('apiService').value);
-    console.log(this.eventForm.get('apiService').value);
-    console.log('processou');
+
     this.chart.chart.update();
   }
 
@@ -102,7 +100,7 @@ export class GraphicComponent implements OnInit {
         (value) => value.valor
       );
       this.eventsDatesToChart = this.apiEvents.map((value) =>
-        moment(value.data).format('D MMM YY')
+        this.parseDateFormat(value.data)
       );
       this.chartData.push({
         data: this.valuesToInputInChartData,
@@ -116,7 +114,7 @@ export class GraphicComponent implements OnInit {
 
     const id = this.userService.getUserId();
 
-    this.eventService.getUserEvents(id).subscribe((data: any) => {
+    /*this.eventService.getUserEvents(id).subscribe((data: any) => {
       this.userEvents = data;
       this.chartData.push({
         data: this.userEvents.map((value) => value.title),
@@ -132,7 +130,7 @@ export class GraphicComponent implements OnInit {
       );
       this.chartLabels = this.eventsDatesToChart;
       this.chart.chart.update();
-    });
+    });*/
   }
 
   getDolarData() {
@@ -141,12 +139,12 @@ export class GraphicComponent implements OnInit {
     this.chartData = [];
 
     this.economicsService.getPtaxData().subscribe((data: any) => {
-      this.apiEvents = data.value;
+      this.apiEvents = data;
       this.valuesToInputInChartData = this.apiEvents.map(
         (value) => value.cotacaoVenda
       );
       this.eventsDatesToChart = this.apiEvents.map((value) =>
-        moment(value.dataHoraCotacao).format('D MMM YY')
+        this.parseDateFormat(value.data)
       );
       this.chartData.push({
         data: this.valuesToInputInChartData,
@@ -155,8 +153,10 @@ export class GraphicComponent implements OnInit {
         backgroundColor: 'rgb(6C, 6C, 6C)',
       });
       this.chartLabels = this.eventsDatesToChart;
+      console.log(this.eventsDatesToChart)
       this.chart.chart.update();
     });
+    console.log(this.valuesToInputInChartData);
   }
 
   getIbovespaData() {
@@ -170,7 +170,7 @@ export class GraphicComponent implements OnInit {
         (value) => value.valor
       );
       this.eventsDatesToChart = this.apiEvents.map((value) =>
-        moment(value.data).format('D MMM YY')
+        this.parseDateFormat(value.data)
       );
       this.chartData.push({
         data: this.valuesToInputInChartData,
@@ -194,7 +194,7 @@ export class GraphicComponent implements OnInit {
         (value) => value.valor
       );
       this.eventsDatesToChart = this.apiEvents.map((value) =>
-        moment(value.data).format('D MMM YY')
+        this.parseDateFormat(value.data)
       );
       this.chartData.push({
         data: this.valuesToInputInChartData,
@@ -218,7 +218,7 @@ export class GraphicComponent implements OnInit {
         (value) => value.valor
       );
       this.eventsDatesToChart = this.apiEvents.map((value) =>
-        moment(value.data).format('D MMM YY')
+        this.parseDateFormat(value.data)
       );
       this.chartData.push({
         data: this.valuesToInputInChartData,
@@ -257,5 +257,9 @@ export class GraphicComponent implements OnInit {
       }
       this.refresh.next(this.events);
     });
+  }
+
+  parseDateFormat(date) {
+    return moment(date).format('D MMM YY');
   }
 }

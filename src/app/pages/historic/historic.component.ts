@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { EventService } from '../../core/services/event-service/event.service';
 import { UserService } from '../../core/services/user-service/user.service';
@@ -17,7 +18,8 @@ export class HistoricComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private userService: UserService
+    private userService: UserService,
+    private modal: NgbModal,
   ) { }
 
   ngOnInit(): void {
@@ -44,4 +46,13 @@ export class HistoricComponent implements OnInit {
     });
   }
 
+  deleteEventLog(id, content): void {
+    this.eventService.deleteEventLog(id).subscribe(
+      () => {
+        this.fetchEventLogList();
+      },
+      () => {}
+    );
+    this.modal.open(content);
+  }
 }

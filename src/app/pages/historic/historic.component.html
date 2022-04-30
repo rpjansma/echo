@@ -31,9 +31,8 @@
             <td>
               <button
                 type="button"
-                class="btn pl-1 ml-1"
-                data-bs-toggle="modal"
-                data-bs-target="#deleteEventModal"
+                class="btn pl-1"
+                (click)="deleteEventLog(event._id, deleteEventModal)"
               >
                 <i class="bi bi-trash"></i>
               </button>
@@ -45,36 +44,29 @@
   </div>
 
   <!-- Delete Modal HTML -->
-  <div id="deleteEventModal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form>
-          <div class="modal-header">
-            <h4 class="modal-title">Deletar Evento</h4>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-hidden="Close"
-            ></button>
-          </div>
-          <div class="d-flex flex-column modal-body">
-            <p>Você tem certeza que deseja deletar esse evento?</p>
-            <p class="text-warning">
-              <small>Essa ação não poderá ser desfeita</small>
-            </p>
-          </div>
-          <div class="modal-footer">
-            <input
-              type="button"
-              class="btn btn-default"
-              data-bs-dismiss="modal"
-              value="Cancelar"
-            />
-            <input type="submit" class="btn btn-danger" value="Deletar" />
-          </div>
-        </form>
-      </div>
+  <ng-template
+    #deleteEventModal
+    let-close="close"
+    class="modal fade"
+    role="dialog"
+  >
+    <div #modalEventContent class="modal-header col-lg-12">
+      <h4 class="modal-title">Evento excluído com sucesso!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </div>
+
+    <div class="modal-body">
+      O evento selecionado foi apagado.
+
+      <modal-loading *ngIf="loading"></modal-loading>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">
+        Fechar
+      </button>
+    </div>
+  </ng-template>
 </body>

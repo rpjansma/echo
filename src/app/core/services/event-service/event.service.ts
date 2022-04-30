@@ -135,4 +135,13 @@ export class EventService {
       })
     );
   }
+
+  deleteEventLog(id: string) {
+    return this.http.delete(API_URL + '/events/event/user/' + id).pipe(
+      catchError((error) => {
+        alert('Sorry, we had an error. Can you try again?');
+        return of(null);
+      })
+    );
+  }
 }

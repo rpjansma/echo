@@ -1,87 +1,105 @@
 <body class="d-flex justify-content-center p-3">
-  <div class="">
-    <form [formGroup]="registerForm" class="form mt-4 container" (submit)="register()" *ngIf="!loading">
-
-      <input #nameInput formControlName="name" class="form-control mt-2" placeholder="NOME COMPLETO" />
-      <error-message *ngIf="isRequiredAndTouched('name')" text="Insira seu nome completo"></error-message>
-      <error-message *ngIf="registerForm.get('username')?.errors?.minlength" text="Insira pelo menos 3 caracteres">
-      </error-message>
-
-      <div class="col-12 text-center">
-
-        <div class="row">
-          <div class="col-lg-4">
-            <input formControlName="birthday" type="date" class="form-control col-md-12" style="font-size: medium" />
-          </div>
-
-          <div class="col-lg-4 pt-3">
-            <input type="checkbox" class="custom-control-input" id="masculino" name="sexo" mdbInput>
-            <label class="custom-control-label" for="defaultChecked">MASCULINO</label>
-          </div>
-
-          <div class="col-lg-4 pt-3">
-            <input type="checkbox" class="custom-control-input" id="feminino" name="sexo" mdbInput>
-            <label class="custom-control-label" for="defaultUnchecked">FEMININO</label>
-          </div>
+  <div class="container mt-5">
+    <form
+      [formGroup]="registerForm"
+      class="form mt-4"
+      (submit)="register()"
+      *ngIf="!loading"
+    >
 
 
-        </div>
-
+      <div class="form-group">
+        <input
+          #usernameInput
+          formControlName="username"
+          class="form-control"
+          placeholder="Username"
+        />
+        <error-message
+          *ngIf="isRequiredAndTouched('username')"
+          text="Insira um usuário"
+        ></error-message>
+        <error-message
+          *ngIf="registerForm.get('username')?.errors?.minlength"
+          text="Insira pelo menos 3 caracteres"
+        ></error-message>
+        <error-message
+          *ngIf="registerForm.get('username')?.errors?.maxlength"
+          text="Insira no máximo 20 caracteres"
+        ></error-message>
+        <error-message
+          *ngIf="registerForm.get('username')?.errors?.pattern"
+          text="Deve começar com uma letra minúscula, não pode ser um número"
+        ></error-message>
       </div>
 
       <div class="form-group">
-        <input formControlName="email" type="email" class="form-control" placeholder="E-MAIL" />
+        <input
+          formControlName="email"
+          type="email"
+          class="form-control"
+          placeholder="E-mail"
+        />
 
-        <error-message *ngIf="isRequiredAndTouched('email')" text="Insira um e-mail válido"></error-message>
-        <error-message *ngIf="registerForm.get('email')?.errors?.email" text="E-mail inválido"></error-message>
+        <error-message
+          *ngIf="isRequiredAndTouched('email')"
+          text="Insira um e-mail válido"
+        ></error-message>
       </div>
 
       <div class="form-group">
-        <input formControlName="emailrepeat" type="email" class="form-control" placeholder="CONFIRME SEU E-MAIL"
-          pattern="{{ email.value }}" />
-        <error-message *ngIf="registerForm.get('emailrepeat')?.errors?.pattern" text="Os e-mails não são iguais">
-        </error-message>
+        <input
+          formControlName="password"
+          type="password"
+          class="form-control"
+          placeholder="New password"
+          #password
+        />
+        <error-message
+          *ngIf="isRequiredAndTouched('password')"
+          text="Password is required"
+        ></error-message>
+        <error-message
+          *ngIf="registerForm.get('password')?.errors?.minlength"
+          text="Minimum length is 6"
+        ></error-message>
+        <error-message
+          *ngIf="registerForm.get('password')?.errors?.maxlength"
+          text="Maximum length is 20"
+        ></error-message>
       </div>
 
       <div class="form-group">
-        <input #usernameInput formControlName="username" class="form-control mt-2" placeholder="USUÁRIO" />
-        <error-message *ngIf="isRequiredAndTouched('username')" text="Insira um usuário"></error-message>
-        <error-message *ngIf="registerForm.get('username')?.errors?.minlength" text="Insira pelo menos 3 caracteres">
-        </error-message>
-        <error-message *ngIf="registerForm.get('username')?.errors?.maxlength" text="Insira no máximo 20 caracteres">
-        </error-message>
-        <error-message *ngIf="registerForm.get('username')?.errors?.pattern"
-          text="Deve começar com uma letra minúscula, não pode ser um número"></error-message>
+        <input
+          formControlName="passwordRepeat"
+          type="password"
+          class="form-control"
+          placeholder="Confirm your password"
+          pattern="{{ password.value }}"
+        />
+        <error-message
+          *ngIf="registerForm.get('passwordRepeat')?.errors?.pattern"
+          text="As senha não são iguais"
+        ></error-message>
       </div>
 
-      <div class="form-group">
-        <input formControlName="password" type="password" class="form-control" placeholder="SENHA" #password />
-        <error-message *ngIf="isRequiredAndTouched('password')" text="Insira um senha"></error-message>
-        <error-message *ngIf="registerForm.get('password')?.errors?.minlength" text="Deve ter pelo menos 6 caracteres">
-        </error-message>
-        <error-message *ngIf="registerForm.get('password')?.errors?.maxlength" text="Deve ter no máximo 20 caracteres">
-        </error-message>
-      </div>
-
-      <div class="form-group">
-        <input formControlName="passwordRepeat" type="password" class="form-control" placeholder="CONFIRME SUA SENHA"
-          pattern="{{ password.value }}" />
-        <error-message *ngIf="registerForm.get('passwordRepeat')?.errors?.pattern" text="As senha não são iguais">
-        </error-message>
-      </div>
-
-      <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary btn-block my-4">
-        Registrar
+      <button
+        [disabled]="registerForm.invalid"
+        type="submit"
+        class="btn btn-primary btn-block my-4"
+      >
+        Register
       </button>
+
+      <p class="text-center mt-2">
+        Já tem conta? <span [routerLink]="['/login']"
+          style="color: blue; text-decoration: underline; cursor: pointer">Faça login</span>!
+      </p>
 
     </form>
 
-    <p class="text-center mt-2">
-      Já tem conta? <span [routerLink]="['/login']"
-        style="color: blue; text-decoration: underline; cursor: pointer">Faça login</span>!
-    </p>
-
     <modal-loading *ngIf="loading"></modal-loading>
+
   </div>
 
 

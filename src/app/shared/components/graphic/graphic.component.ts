@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { EconomicsService } from 'src/app/core/services/economics-service/economics.service';
 import { UserService } from 'src/app/core/services/user-service/user.service';
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EventService } from '../../../core/services/event-service/event.service';
@@ -18,7 +18,7 @@ export class GraphicComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   refresh: BehaviorSubject<any> = new BehaviorSubject(null);
   dateForm: FormGroup;
-  eventForm: FormGroup;
+  graphicForm: FormGroup;
   apiEvents: any[] = [];
   userEvents: any[] = [];
   valuesToInputInChartData = [];
@@ -54,7 +54,7 @@ export class GraphicComponent implements OnInit {
       dataInicial: [null, [Validators.required]],
       dataFinal: [null, [Validators.required]],
     });
-    this.eventForm = this.formBuilder.group({
+    this.graphicForm = this.formBuilder.group({
       apiService: ['ptax'],
     });
   }
@@ -65,7 +65,7 @@ export class GraphicComponent implements OnInit {
   }
 
   process() {
-    this.selectApiDataSource(this.eventForm.get('apiService').value);
+    this.selectApiDataSource(this.graphicForm.get('apiService').value);
 
     this.chart.chart.update();
   }
@@ -91,7 +91,6 @@ export class GraphicComponent implements OnInit {
 
   getIpcaData() {
     this.valuesToInputInChartData = [];
-    this.eventsDatesToChart = [];
     this.chartData = [];
 
     this.economicsService.getIpcaData().subscribe((data: any) => {
@@ -99,16 +98,13 @@ export class GraphicComponent implements OnInit {
       this.valuesToInputInChartData = this.apiEvents.map(
         (value) => value.valor
       );
-      this.eventsDatesToChart = this.apiEvents.map((value) =>
-        this.parseDateFormat(value.data)
-      );
       this.chartData.push({
         data: this.valuesToInputInChartData,
         label: 'Ipca',
         borderColor: 'rgb(6A,82,FB)',
         backgroundColor: 'rgb(6A,82,FB)',
       });
-      this.chartLabels = this.eventsDatesToChart;
+
       this.chart.chart.update();
     });
 
@@ -135,16 +131,18 @@ export class GraphicComponent implements OnInit {
 
   getDolarData() {
     this.valuesToInputInChartData = [];
-    this.eventsDatesToChart = [];
     this.chartData = [];
+    this.eventsDatesToChart = [];
 
     this.economicsService.getPtaxData().subscribe((data: any) => {
       this.apiEvents = data;
       this.valuesToInputInChartData = this.apiEvents.map(
         (value) => value.cotacaoVenda
       );
-      this.eventsDatesToChart = this.apiEvents.map((value) =>
-        this.parseDateFormat(value.data)
+      this.apiEvents.map((value) =>
+        this.eventsDatesToChart.push(
+          this.parseDateFormat(value.dataHoraCotacao)
+        )
       );
       this.chartData.push({
         data: this.valuesToInputInChartData,
@@ -153,15 +151,12 @@ export class GraphicComponent implements OnInit {
         backgroundColor: 'rgb(6C, 6C, 6C)',
       });
       this.chartLabels = this.eventsDatesToChart;
-      console.log(this.eventsDatesToChart)
       this.chart.chart.update();
     });
-    console.log(this.valuesToInputInChartData);
   }
 
   getIbovespaData() {
     this.valuesToInputInChartData = [];
-    this.eventsDatesToChart = [];
     this.chartData = [];
 
     this.economicsService.getIbovespaData().subscribe((data: any) => {
@@ -169,23 +164,18 @@ export class GraphicComponent implements OnInit {
       this.valuesToInputInChartData = this.apiEvents.map(
         (value) => value.valor
       );
-      this.eventsDatesToChart = this.apiEvents.map((value) =>
-        this.parseDateFormat(value.data)
-      );
       this.chartData.push({
         data: this.valuesToInputInChartData,
         label: 'Ibovespa',
         borderColor: 'rgb(6C, 6C, 6C)',
         backgroundColor: 'rgb(6C, 6C, 6C)',
       });
-      this.chartLabels = this.eventsDatesToChart;
       this.chart.chart.update();
     });
   }
 
   getPibData() {
     this.valuesToInputInChartData = [];
-    this.eventsDatesToChart = [];
     this.chartData = [];
 
     this.economicsService.getPibData().subscribe((data: any) => {
@@ -193,23 +183,18 @@ export class GraphicComponent implements OnInit {
       this.valuesToInputInChartData = this.apiEvents.map(
         (value) => value.valor
       );
-      this.eventsDatesToChart = this.apiEvents.map((value) =>
-        this.parseDateFormat(value.data)
-      );
       this.chartData.push({
         data: this.valuesToInputInChartData,
         label: 'PIB',
         borderColor: 'rgb(6C, 6C, 6C)',
         backgroundColor: 'rgb(6C, 6C, 6C)',
       });
-      this.chartLabels = this.eventsDatesToChart;
       this.chart.chart.update();
     });
   }
 
   getCdiData() {
     this.valuesToInputInChartData = [];
-    this.eventsDatesToChart = [];
     this.chartData = [];
 
     this.economicsService.getCdiData().subscribe((data: any) => {
@@ -217,16 +202,12 @@ export class GraphicComponent implements OnInit {
       this.valuesToInputInChartData = this.apiEvents.map(
         (value) => value.valor
       );
-      this.eventsDatesToChart = this.apiEvents.map((value) =>
-        this.parseDateFormat(value.data)
-      );
       this.chartData.push({
         data: this.valuesToInputInChartData,
         label: 'CDI',
         borderColor: 'rgb(6C, 6C, 6C)',
         backgroundColor: 'rgb(6C, 6C, 6C)',
       });
-      this.chartLabels = this.eventsDatesToChart;
       this.chart.chart.update();
     });
   }
@@ -237,8 +218,10 @@ export class GraphicComponent implements OnInit {
     if (dataInicial > dataFinal) {
       alert('A data inicial deve ser maior que a data final!');
     } else {
-      this.economicsService.changeInitialDate(dataInicial);
-      this.economicsService.changeFinalDate(dataFinal);
+      this.economicsService.changeInitialDate(
+        this.parseDateFormat(dataInicial)
+      );
+      this.economicsService.changeFinalDate(this.parseDateFormat(dataFinal));
       this.process();
     }
   }
@@ -260,6 +243,25 @@ export class GraphicComponent implements OnInit {
   }
 
   parseDateFormat(date) {
-    return moment(date).format('D MMM YY');
+    return moment(date).format('DD/MM/YYYY');
+  }
+
+  allDatesBetweenTwoDates(startDate: Date, endDate: Date) {
+    const dates = [];
+    let currentDate = startDate;
+
+    const addDays = function (days) {
+      const date = new Date(this.valueOf());
+      date.setDate(date.getDate() + days);
+      return date;
+    };
+    while (currentDate <= endDate) {
+      dates.push(currentDate);
+      currentDate = addDays.call(currentDate, 1);
+    }
+    this.eventsDatesToChart = [];
+    this.eventsDatesToChart = dates;
+
+    this.chartLabels = this.eventsDatesToChart;
   }
 }

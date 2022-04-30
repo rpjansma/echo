@@ -53,12 +53,12 @@
           <tr class="text-center">
             <td class="card-title">
               <button
-              type="button"
-              class="btn pr-2"
-              (click)="getEventById(event._id)"
-            >
-              <i class="bi bi-binoculars-fill"></i>
-            </button>
+                type="button"
+                class="btn pr-2"
+                (click)="updateApiDateFromEvent(event.start, event.end ,event._id)"
+              >
+                <i class="bi bi-binoculars-fill"></i>
+              </button>
             </td>
             <td class="card-title">{{ event.title | uppercase }}</td>
             <td class="card-text">{{ event.start | date }}</td>
@@ -226,7 +226,56 @@
     </div>
   </div>
 
-  <echo-graphic id="graph" class="container"></echo-graphic>
+  <div class="d-flex align-items-center justify-content-around">
+    <form class="ms-3" [formGroup]="graphicForm" (ngSubmit)="process()">
+      <label class="btn btn-secondary control-label m-3" *ngFor="let api of apis">
+        <input
+          class="btn-check"
+          type="radio"
+          [value]="api.id"
+          (change)="process()"
+          formControlName="apiService"
+        />
+        {{ api.name }}
+      </label>
+    </form>
+
+    <form [formGroup]="dateForm" class="form" (submit)="getIpcaData()">
+      <div class="form-group">
+        <label>Data Inicial</label>
+        <input
+          type="date"
+          formControlName="dataInicial"
+          class="form-control"
+          placeholder="Data inicial (formato: DD/MM/YYYY)"
+        />
+      </div>
+      <div class="form-group">
+        <label>Data Final</label>
+        <input
+          type="date"
+          formControlName="dataFinal"
+          class="form-control"
+          placeholder="Data final (formato: DD/MM/YYYY)"
+          (change)="updateApiDate()"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="">
+    <canvas
+      id="myChart"
+      width="150"
+      height="40"
+      baseChart
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [options]="chartOptions"
+      [legend]="chartLegend"
+      [chartType]="chartType"
+    ></canvas>
+  </div>
 
   <ng-template #modalEvent let-close="close" class="modal fade" role="dialog">
     <div #modalEventContent class="modal-header col-lg-12">
@@ -279,22 +328,14 @@
           </div>
 
           <div class="form-group col-lg-6">
-            <label>Local</label>
-            <select
-              formControlName="local"
-              class="form-control show-tick"
-              (change)="selectOption($event.target.value)"
-              [(ngModel)]="selected"
-            >
-              <option class="dropdown-item" [ngValue]="null" disabled>
-                Escolha a Localidade
-              </option>
-              <option
-                class="dropdown-item"
-                *ngFor="let local of allLocals"
-                [ngValue]="local"
-              ></option>
-            </select>
+              <label *ngFor="let local of locais">
+                <input
+                  type="radio"
+                  [value]="local.name"
+                  formControlName="local"
+                />
+                {{ local.name }}
+              </label>
 
             <error-message
               *ngIf="isRequiredAndTouched('local')"

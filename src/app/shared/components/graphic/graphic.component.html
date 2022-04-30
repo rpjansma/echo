@@ -1,6 +1,5 @@
 <div class="d-flex align-items-center justify-content-around">
-
-  <form class="ms-3" [formGroup]="eventForm" (ngSubmit)="process()">
+  <form class="ms-3" [formGroup]="graphicForm" (ngSubmit)="process()">
     <label class="btn btn-secondary control-label m-3" *ngFor="let api of apis">
       <input
         class="btn-check"
@@ -13,23 +12,20 @@
     </label>
   </form>
 
-  <form
-    [formGroup]="dateForm"
-    class="form"
-    (submit)="getIpcaData()"
-  >
+  <form [formGroup]="dateForm" class="form" (submit)="getIpcaData()">
     <div class="form-group">
       <label>Data Inicial</label>
       <input
+        type="date"
         formControlName="dataInicial"
         class="form-control"
         placeholder="Data inicial (formato: DD/MM/YYYY)"
-        (change)="updateApiDate()"
       />
     </div>
     <div class="form-group">
       <label>Data Final</label>
       <input
+        type="date"
         formControlName="dataFinal"
         class="form-control"
         placeholder="Data final (formato: DD/MM/YYYY)"
@@ -52,5 +48,3 @@
     [chartType]="chartType"
   ></canvas>
 </div>
-
-<form></form>

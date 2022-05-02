@@ -122,8 +122,7 @@ export class EventsComponent implements OnInit {
     this.eventForm.reset();
   }
 
-  editEvent() {
-    const id: any = '';
+  editEvent(id) {
     const title = this.eventForm.get('title')?.value;
     const start = this.eventForm.get('start')?.value;
     const end = this.eventForm.get('end')?.value;

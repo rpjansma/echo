@@ -37,7 +37,9 @@
               <button
                 type="button"
                 class="btn pr-2"
-                (click)="updateApiDateFromEvent(event.start, event.end ,event._id)"
+                (click)="
+                  updateApiDateFromEvent(event.start, event.end, event._id)
+                "
               >
                 <i class="bi bi-binoculars-fill"></i>
               </button>
@@ -159,24 +161,14 @@
                   </div>
 
                   <div class="form-group col-lg-6">
-                    <label>Local</label>
-                    <select
-                      formControlName="local"
-                      class="form-control show-tick"
-                      (change)="selectOption($event)"
-                      [(ngModel)]="selected"
-                    >
-                      <option class="dropdown-item">
-                        Escolha a Localidade
-                      </option>
-                      <option
-                        class="dropdown-item"
-                        *ngFor="let local of allLocals"
-                        [ngValue]="local"
-                      >
-                        {{ local }}
-                      </option>
-                    </select>
+                    <label *ngFor="let local of locais">
+                      <input
+                        type="radio"
+                        [value]="local.name"
+                        formControlName="local"
+                      />
+                      {{ local.name }}
+                    </label>
 
                     <error-message
                       *ngIf="isRequiredAndTouched('local')"
@@ -210,7 +202,10 @@
 
   <div class="d-flex align-items-center justify-content-around">
     <form class="ms-3" [formGroup]="graphicForm" (ngSubmit)="process()">
-      <label class="btn btn-secondary control-label m-3" *ngFor="let api of apis">
+      <label
+        class="btn btn-secondary control-label m-3"
+        *ngFor="let api of apis"
+      >
         <input
           class="btn-check"
           type="radio"
@@ -310,14 +305,14 @@
           </div>
 
           <div class="form-group col-lg-6">
-              <label *ngFor="let local of locais">
-                <input
-                  type="radio"
-                  [value]="local.name"
-                  formControlName="local"
-                />
-                {{ local.name }}
-              </label>
+            <label *ngFor="let local of locais">
+              <input
+                type="radio"
+                [value]="local.name"
+                formControlName="local"
+              />
+              {{ local.name }}
+            </label>
 
             <error-message
               *ngIf="isRequiredAndTouched('local')"

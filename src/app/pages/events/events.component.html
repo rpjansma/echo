@@ -111,7 +111,7 @@
 
                     <input
                       formControlName="start"
-                      type="date"
+                      type="datetime-local"
                       class="form-control"
                       ngModel="{{ event.start }}"
                     />
@@ -128,7 +128,7 @@
                     <label>Data final</label>
                     <input
                       formControlName="end"
-                      type="date"
+                      type="datetime-local"
                       class="form-control"
                       ngModel="{{ event.end }}"
                     />
@@ -221,7 +221,7 @@
       <div class="form-group">
         <label>Data Inicial</label>
         <input
-          type="date"
+          type="datetime-local"
           formControlName="dataInicial"
           class="form-control"
           placeholder="Data inicial (formato: DD/MM/YYYY)"
@@ -230,7 +230,7 @@
       <div class="form-group">
         <label>Data Final</label>
         <input
-          type="date"
+          type="datetime-local"
           formControlName="dataFinal"
           class="form-control"
           placeholder="Data final (formato: DD/MM/YYYY)"
@@ -277,7 +277,7 @@
           <div class="form-group col-lg-6">
             <label class="form-label">Início</label>
 
-            <input formControlName="start" type="date" class="form-control" />
+            <input formControlName="start" type="datetime-local" class="form-control" />
             <error-message
               *ngIf="isRequiredAndTouched('start')"
               text="Data inicial é necessária"
@@ -286,7 +286,7 @@
 
           <div class="form-group col-lg-6">
             <label>Data final</label>
-            <input formControlName="end" type="date" class="form-control" />
+            <input formControlName="end" type="datetime-local" class="form-control" />
             <error-message
               *ngIf="isRequiredAndTouched('end')"
               text="Data final é necessária"

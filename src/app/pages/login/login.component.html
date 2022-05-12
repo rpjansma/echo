@@ -1,70 +1,67 @@
-<body class="container text-center vsc-initialized" id="body-login">
+<body
+  class="container text-center d-flex flex-column min-vh-100"
+  id="body-login"
+>
   <div class="d-flex justify-content-center align-items-center pb-5">
-    <form class="col-md-6 col-sm-12" [formGroup]="loginForm" (submit)="login()" *ngIf="!loading" id="register-form">
-      
-        <h1 class="h3 pb-3 fw-normal">FAÇA SEU LOGIN</h1>
+    <form
+      class="col-md-6 col-sm-12"
+      [formGroup]="loginForm"
+      (submit)="login()"
+      *ngIf="!loading"
+      id="register-form"
+    >
+      <h1 class="h3 pb-3 fw-normal">FAÇA LOGIN</h1>
 
-        <div class="form-floating p-2">
-          <input
-            type="email"
-            class="form-control"
-            id="username"
-            formControlName="username"
-            [class.is-valid]="loginForm.controls['username'].valid"
-            placeholder="username"
-          />
-          <error-message
-            *ngIf="isRequiredAndTouched('username')"
-            text="Username is required"
-          ></error-message>
-          <label for="usernameInput">DIGITE SEU USUÁRIO</label>
-        </div>
-  
-        <div class="form-floating p-2">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            formControlName="password"
-            [class.is-valid]="loginForm.controls['password'].valid"
-          />
-          <error-message
-            *ngIf="isRequiredAndTouched('password')"
-            text="Password is required"
-          ></error-message>
-          <label for="floatingPassword">DIGITE SUA SENHA</label>
-        </div>
+      <div class="form-floating p-2">
+        <input
+          type="email"
+          class="form-control"
+          id="username"
+          formControlName="username"
+          [class.is-valid]="loginForm.controls['username'].valid"
+          placeholder="username"
+        />
+        <error-message
+          *ngIf="isRequiredAndTouched('username')"
+          text="Username is required"
+        ></error-message>
+        <label for="usernameInput">DIGITE SEU USUÁRIO</label>
+      </div>
 
-        <div class="checkbox pb-3 pt-3">
-          <label>
-            <input type="checkbox" value="remember-me" /> Lembre de mim
-          </label>
-        </div>
-        <button
-          class="w-100 btn btn-lg btn-primary"
-          type="submit"
-          [disabled]="loginForm.invalid"
-        >
-          ENTRAR
-        </button>
+      <div class="form-floating p-2">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Password"
+          formControlName="password"
+          [class.is-valid]="loginForm.controls['password'].valid"
+        />
+        <error-message
+          *ngIf="isRequiredAndTouched('password')"
+          text="Password is required"
+        ></error-message>
+        <label for="floatingPassword">DIGITE SUA SENHA</label>
+      </div>
 
-        <p class="text-center pt-2">
-          ou entre através:
-        </p> 
+      <div class="checkbox pb-3 pt-3">
+        <label>
+          <input type="checkbox" value="remember-me" /> Lembre de mim
+        </label>
+      </div>
+      <button
+        class="w-100 btn btn-lg btn-primary"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        ENTRAR
+      </button>
 
-        <a><i class="bi bi-google pe-2" style="font-size: 2rem" id="google"></i></a>
+      <p class="text-center pt-3" id="first-access">PRIMEIRO ACESSO?</p>
 
-        <a><i class="bi bi-facebook ps-2" style="font-size: 2rem"id="facebook"></i></a>
-
-        <p class="text-center pt-2" id="first-access">
-         PRIMEIRO ACESSO?
-        </p> 
-  
-        <p class="text-center pt-2">
-          <a [routerLink]="['/register']">Clique aqui</a> para se cadastrar
-        </p> 
-
+      <p class="text-center">
+        <a [routerLink]="['/register']">Clique aqui</a> para se cadastrar
+      </p>
     </form>
 
     <modal-loading *ngIf="loading"></modal-loading>

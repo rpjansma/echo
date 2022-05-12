@@ -1,0 +1,7 @@
+.carousel-item {
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s eaease-in-outse, -webkit-transform 0.3s ease-in-out;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+}
